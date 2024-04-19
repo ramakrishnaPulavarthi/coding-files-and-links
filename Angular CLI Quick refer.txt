@@ -1,0 +1,55 @@
+Angular CLI:
+===========
+Reference :  https://angular.io/cli/new
+
+importent Extensions::
+----------------------
+Angular language service 
+Angular Essentials
+
+
+ng add::
+--------
+ng add <collection>
+ex: ng add angular
+
+ng build::
+----------
+ng build [project]
+
+ng generate::
+-------------
+ng generate <schematic>
+
+ng new::
+--------
+ng new [name]
+
+ng run::
+--------
+ng run <target>
+
+ng serve::
+----------
+ng serve [project]
+
+ng test::
+---------
+ng test [project]
+
+ng update::
+------------
+ng update [packages..]
+
+ng version::
+------------
+ng version
+
+
+
+
+
+
+
+
+
