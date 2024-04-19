@@ -1,0 +1,291 @@
+1)Understand the core of the Observables in rxjs. Need of subscribe & unsubscribe in the angular.
+	Subscribe: 
+		To receive values from an Observable, you need to subscribe to it. When you subscribe to an Observable, 
+		you are essentially setting up a callback to handle the values that the Observable emits over time.
+		import { Observable } from 'rxjs';
+
+		const observable = new Observable(observer => {
+			// Emit values or events to the observer
+			observer.next('Value 1');
+			observer.next('Value 2');
+
+			// Emit an error
+			observer.error('Something went wrong');
+
+			// Complete the observable (no more values will be emitted)
+			observer.complete();
+		});
+
+		const subscription = observable.subscribe(
+			value => console.log(value), // onNext callback
+			error => console.error(error), // onError callback
+			() => console.log('Observable completed') // onCompleted callback
+		);
+
+	Unsubscribe: 
+		To prevent memory leaks, it's essential to unsubscribe from Observables when they are no longer needed,
+		typically in Angular's component lifecycle hooks like ngOnDestroy.
+
+		ngOnDestroy(): void {
+			// Unsubscribe to avoid memory leaks
+			this.subscription.unsubscribe();
+		}
+2) Create our own custom Observable in rxjs. How to use observer.next option in the angular.
+	Example 1:
+		##ts file
+		import { Observable, Observer } from 'rxjs';
+		// Custom Observable
+		const customObservable = new Observable((observer: Observer<number>) => {
+		  // Emit values to the observer
+		  observer.next(1);
+		  observer.next(2);
+		  observer.next(3);
+
+		  // Emit an error
+		  // observer.error('Something went wrong');
+
+		  // Complete the observable
+		  observer.complete();
+
+		  // This won't be emitted after the completion
+		  observer.next(4);
+		});
+
+		// Subscription to the custom Observable
+		const subscription = customObservable.subscribe(
+		  (value) => console.log('Next:', value),
+		  (error) => console.error('Error:', error),
+		  () => console.log('Completed')
+		);
+
+	Example 2:
+		##your.service.ts::
+		import { Injectable } from '@angular/core';
+		import { Observable, Observer } from 'rxjs';
+
+		@Injectable({
+		  providedIn: 'root'
+		})
+		export class YourService {
+		  getData(): Observable<number> {
+			return new Observable((observer: Observer<number>) => {
+			  // Emit values to the observer
+			  observer.next(1);
+			  observer.next(2);
+			  observer.next(3);
+
+			  // Complete the observable
+			  observer.complete();
+			});
+		  }
+		}
+		##your.component.ts::
+		import { Component, OnInit } from '@angular/core';
+		import { YourService } from './your.service';
+
+		@Component({
+		  selector: 'app-your-component',
+		  template: '...',
+		})
+		export class YourComponent implements OnInit {
+		  constructor(private yourService: YourService) {}
+
+		  ngOnInit(): void {
+			this.yourService.getData().subscribe(
+			  (value) => console.log('Next:', value),
+			  (error) => console.error('Error:', error),
+			  () => console.log('Completed')
+			);
+		  }
+		}
+3) Catch Errors & Complete in rxjs custom observable using observer.error and complete in angular.
+	import { Observable, Observer } from 'rxjs';
+
+	// Custom Observable
+	const customObservable = new Observable((observer: Observer<number>) => {
+	  try {
+		// Emit values to the observer
+		observer.next(1);
+		observer.next(2);
+		observer.next(3);
+
+		// Simulate an error
+		throw new Error('Something went wrong');
+
+		// This won't be emitted after the error
+		observer.next(4);
+	  } catch (error) {
+		// Emit an error
+		observer.error(error);
+	  }
+
+	  // Complete the observable
+	  observer.complete();
+
+	  // This won't be emitted after the completion
+	  observer.next(5);
+	});
+
+	// Subscription to the custom Observable
+	const subscription = customObservable.subscribe(
+	  (value) => console.log('Next:', value),
+	  (error) => console.error('Error:', error),
+	  () => console.log('Completed')
+	);
+	When you run this code, the output will be:
+	Next: 1
+	Next: 2
+	Next: 3
+	Error: Error: Something went wrong
+	Completed
+4) Understand rxjs Operators in the observables before sending to the subscribe data in angular.
+	Example 1: 'of' using pipeable operators:
+		import { of } from 'rxjs';
+		import { map, filter, tap } from 'rxjs/operators';
+
+		const source = of(1, 2, 3, 4, 5);
+
+		source.pipe(
+		  map((value) => value * 2),         // Multiply each value by 2
+		  filter((value) => value % 2 === 0), // Filter out odd numbers
+		  tap((value) => console.log(value))  // Log the values (no transformation)
+		).subscribe();
+		Output:
+		2
+		4
+		6
+	Example 2: using creation operators:
+		import { interval } from 'rxjs';
+		import { take } from 'rxjs/operators';
+
+		const source = interval(1000); // Emit a value every second
+
+		source.pipe(
+			take(5) // Take only the first 5 values
+		).subscribe((value) => console.log(value));
+		Output:
+		0
+		1
+		2
+		3
+		4
+5) Apply multiple operators in the rxjs observables
+	import { of } from 'rxjs';
+	import { map, filter, tap, take } from 'rxjs/operators';
+
+	const source = of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
+	source.pipe(
+	  // Multiply each value by 2
+	  map((value) => value * 2),
+
+	  // Filter out odd numbers
+	  filter((value) => value % 2 === 0),
+
+	  // Log the values (no transformation)
+	  tap((value) => console.log('Value:', value)),
+
+	  // Take only the first 5 values
+	  take(5)
+	).subscribe();
+
+	Output:
+	Value: 2
+	Value: 4
+	Value: 6
+	Value: 8
+	Value: 10
+6) Commonly Used RxJS Operators in Angular:
+	Transformation Operators:
+		map: Transforms each value emitted by the source Observable.
+		pluck: Extracts a specific property from each emitted object.
+		switchMap: Maps each value to an inner Observable, subscribing and emitting values from the most recent inner Observable.
+		mergeMap (flatMap): Maps each value to an inner Observable and merges the output from all the inner Observables.
+		concatMap: Maps each value to an inner Observable and emits the values in a sequential manner.
+
+	Filtering Operators:
+		filter: Emits values that meet the specified condition.
+		take: Emits only the first N values and then completes the Observable.
+		skip: Skips the first N values and emits the rest.
+		distinctUntilChanged: Emits values only if they are different from the previous value.
+
+	Combination Operators:
+		combineLatest: Combines multiple Observables and emits an array of the latest values from each source Observable.
+		merge: Merges multiple Observables and emits all the values from all Observables in a non-sequential manner.
+		concat: Concatenates multiple Observables and emits all the values in a sequential manner.
+
+	Utility Operators:
+		tap: Performs a side effect for each emission without modifying the emitted value.
+		delay: Delays the emission of values by a specified amount of time.
+		finalize: Executes a callback when the Observable completes or encounters an error.
+		catchError (or catch): Handles errors emitted by the source Observable and returns a new Observable or a default value.
+		
+7)Understand the Subjects in rxjs angular. Implement the Subject for cross-component communication
+	Step 1: Create a service to hold the Subject:
+			import { Injectable } from '@angular/core';
+			import { Subject } from 'rxjs';
+
+			@Injectable({
+			  providedIn: 'root'
+			})
+			export class DataService {
+			  // Create a Subject to hold the data
+			  private dataSubject = new Subject<string>();
+
+			  // Expose the Subject as an Observable so other components can subscribe to it
+			  data$ = this.dataSubject.asObservable();
+
+			  // Method to update the data in the Subject
+			  updateData(data: string) {
+				this.dataSubject.next(data);
+			  }
+			}
+
+	Step 2: Component A (the sender) updates the data:
+			import { Component } from '@angular/core';
+			import { DataService } from './data.service';
+
+			@Component({
+			  selector: 'app-component-a',
+			  template: `
+				<input type="text" [(ngModel)]="inputData" />
+				<button (click)="sendData()">Send Data</button>
+			  `
+			})
+			export class ComponentA {
+			  inputData = '';
+
+			  constructor(private dataService: DataService) {}
+
+			  sendData() {
+				this.dataService.updateData(this.inputData);
+			  }
+			}
+
+	Step 3: Component B (the receiver) subscribes to the data:
+			import { Component, OnDestroy } from '@angular/core';
+			import { DataService } from './data.service';
+			import { Subscription } from 'rxjs';
+
+			@Component({
+			  selector: 'app-component-b',
+			  template: `
+				<div>{{ receivedData }}</div>
+			  `
+			})
+			export class ComponentB implements OnDestroy {
+			  receivedData: string;
+			  private dataSubscription: Subscription;
+
+			  constructor(private dataService: DataService) {
+				// Subscribe to the Subject to receive data updates
+				this.dataSubscription = this.dataService.data$.subscribe((data) => {
+				  this.receivedData = data;
+				});
+			  }
+
+			  ngOnDestroy() {
+				// Don't forget to unsubscribe to avoid memory leaks
+				this.dataSubscription.unsubscribe();
+			  }
+			}

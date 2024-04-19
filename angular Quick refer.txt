@@ -1,0 +1,3427 @@
+1)Create new Angular Project using Angular CLI
+Step 1: Install Angular CLI
+		npm install -g @angular/cli
+Step 2: Generate a new Angular project
+		ng new my-angular-app
+2)Exploring the Angular Project Folder Structure.
+
+	1)e2e: This folder contains end-to-end (e2e) test files. These tests are used to simulate user interactions and test the application's 
+		behavior from the user's perspective.
+
+	2)node_modules: This folder contains all the external libraries and dependencies that your project needs. These dependencies are managed 
+		by npm (Node Package Manager).
+
+	3)src: This is the most important folder in your project. It contains all the source code, assets, and configuration files.
+
+		a. src/app: This folder contains your application's components, modules, services, and other Angular-related files.
+
+		b. src/assets: This folder is used to store static assets such as images, fonts, and other files that are used in your application.
+
+		c. src/environments: This folder contains environment-specific configuration files, such as environment.ts for development and environment.prod.ts for production.
+
+		d. src/index.html: This is the main HTML file that serves as the entry point of your application. It contains the <app-root> element where the Angular app is bootstrapped.
+
+		e. src/main.ts: This is the main TypeScript file that bootstraps the Angular application. It imports the AppModule and starts the application.
+
+		f. src/styles.css: This is the main global stylesheet for your application. You can add custom CSS styles here that will apply throughout the app.
+
+		g. src/polyfills.ts: This file includes polyfills required to support older browsers and ensure compatibility with modern JavaScript features.
+
+	4)angular.json: This is the configuration file for your Angular project. It contains various settings and options related to your project's build, serve,
+		and test configurations.
+
+	5)package.json: This file contains metadata about your project and lists all the npm packages (dependencies) required for your project to work.
+		It also includes scripts for running various tasks.
+
+	6)tsconfig.json: This is the TypeScript configuration file for your project. It defines how TypeScript should compile your code.
+
+	7)tslint.json: This file contains linting rules for TypeScript files. Linting helps ensure consistent and clean code in your project.
+
+	8)karma.conf.js and protractor.conf.js: These are configuration files for running unit tests with Karma and end-to-end tests with Protractor, respectively.
+
+	9)README.md: This is a text file that contains basic information and instructions about your project. It is often used as the project's documentation.
+
+3)Installing Bootstrap in the Angular Project and include into the angular.json file
+	Step 1: Install Bootstrap
+	npm install bootstrap
+	Step 2: Include Bootstrap in angular.json
+	"architect": {
+			"build": {
+				"options": {
+					"styles": [
+						"node_modules/bootstrap/dist/css/bootstrap.min.css",
+						"src/styles.css"
+					  ],
+					  "scripts": [
+						"node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+					  ]
+					}
+				}
+			}
+4)Checking the angular project execution process how it gets loaded and started.
+	1)Entry Point: When you run ng serve, the Angular CLI looks for the main TypeScript file specified in the angular.json file 
+		under the "main" property. By default, this is src/main.ts.
+
+	2)main.ts: This is the entry point of your Angular application. It's where the Angular platform is bootstrapped and the AppModule is loaded.
+
+		import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+		import { AppModule } from './app/app.module';
+
+		platformBrowserDynamic().bootstrapModule(AppModule)
+		  .catch(err => console.error(err));
+		  
+		In main.ts, the platformBrowserDynamic() function from @angular/platform-browser-dynamic is used to bootstrap the Angular application.
+		It loads the root module (AppModule) and starts the application.
+
+			1)AppModule: The AppModule is the root module of your application, and it is defined in src/app/app.module.ts. 
+				It is responsible for importing and configuring other modules, components, services, and any other features required by your application.
+				
+				import { NgModule } from '@angular/core';
+				import { BrowserModule } from '@angular/platform-browser';
+				import { AppComponent } from './app.component';
+
+				@NgModule({
+				  declarations: [AppComponent],
+				  imports: [BrowserModule],
+				  providers: [],
+				  bootstrap: [AppComponent]
+				})
+				export class AppModule { }
+				
+			1)AppComponent: The AppComponent is the root component of your application, and it is defined in src/app/app.component.ts. 
+				It represents the main component that is loaded into the index.html file.
+				
+				import { Component } from '@angular/core';
+
+				@Component({
+				  selector: 'app-root',
+				  template: `
+					<!-- Your application content goes here -->
+				  `,
+				  styleUrls: ['./app.component.css']
+				})
+				export class AppComponent {
+				  // Component logic goes here
+				}
+			1)index.html: The index.html file is located in the src folder, and it serves as the entry point of your application in the browser.
+				It includes the <app-root> element, which represents the Angular application's root component.
+
+				<!DOCTYPE html>
+				<html lang="en">
+				<head>
+				  <meta charset="utf-8">
+				  <title>My Angular App</title>
+				  <base href="/">
+				  <meta name="viewport" content="width=device-width, initial-scale=1">
+				</head>
+				<body>
+				  <app-root></app-root>
+				</body>
+				</html>
+
+5)create New Custom Component in Angular and add it into the App Module in component declarations
+create folder: user
+	create file: user.component.html
+	create file: user.component.ts
+	create file: user.component.css
+user.component.ts:
+import { Component } from '@angular/component';	
+@Component({
+	selector: 'app-user',
+	templateUrl: './user.component.html',
+	stylesUrls: ['./user.component.css']
+})
+class UserComponent {
+
+}
+
+6)Creating New Component with the angular CLI Command Generate Component & Nesting Components.
+	Step 1: Generate a new component
+			ng generate component user-profile
+	Step 2: Nesting Components
+			app.component.html
+			<app-user-profile></app-user-profile>
+
+7)Difference between the Template and TemplateUrl in the angular components to write HTML data.
+	template:
+		@Component({
+		selector: 'app-example',
+		template: `
+		<h1>Hello, this is the inline template!</h1>
+		<p>Some content inside the component.</p>
+		`,
+		})
+		export class ExampleComponent {
+		// Component logic here
+		}
+	templateUrl:
+		@Component({
+		selector: 'app-example',
+		templateUrl: './example.component.html',
+		})
+		export class ExampleComponent {
+		// Component logic here
+		}
+	When to use template vs. templateUrl:
+		Use template when the component's template is relatively short and simple.
+		Use templateUrl when the component's template is more extensive and may include complex HTML.
+		
+8)Working with styleUrls and styles option in the angular component for styling the HTML templates.
+	styleUrls:
+		@Component({
+		  selector: 'app-example',
+		  templateUrl: './example.component.html',
+		  styleUrls: ['./example.component.css']
+		})
+		export class ExampleComponent {
+		  // Component logic here
+		}
+	styles:
+		@Component({
+		  selector: 'app-example',
+		  templateUrl: './example.component.html',
+		  styles: [
+			`
+			h1 {
+			  color: blue;
+			}
+
+			p {
+			  font-size: 16px;
+			}
+			`
+		  ]
+		})
+		export class ExampleComponent {
+		  // Component logic here
+		}
+		
+		When to use styleUrls vs. styles:
+			Use styleUrls when you have larger and more complex CSS styles specific to the component.
+			Use styles when you have a smaller amount of CSS that is specific to the component.
+			
+9)Understanding Different types of Selectors supported for creating components in angular.
+	In Angular, there are three types of selectors that you can use to create components:
+	Element Selector: 
+		@Component({
+			selector: 'app-custom-element'
+		})
+		export class CustomElementComponent {
+			// Component logic here
+		}
+		
+		Usage in HTML template:  <app-custom-element></app-custom-element>
+		
+	Attribute Selector:
+		@Component({
+		  selector: '[app-custom-attribute]'
+		})
+		export class CustomAttributeComponent {
+		  // Component logic here
+		}
+		
+		Usage in HTML template: <div app-custom-attribute></div>
+
+	Class Selector:
+		@Component({
+			selector: '.app-custom-class'
+		})
+		export class CustomClassComponent {
+			// Component logic here
+		}
+		
+		Usage in HTML template: <div class="app-custom-class"></div>
+		
+10) Implement Data Binding in the Angular. Understanding String Interpolation in the Html File.
+	step 1: app.component.ts
+		import { Component } from '@angular/core';
+
+		@Component({
+			selector: 'app-root',
+			templateUrl: './app.component.html'
+		})
+		export class AppComponent {
+			message: string = 'Hello, Angular!';
+		}
+	Step 2: Use String Interpolation in the Template
+		<h1>{{ message }}</h1>
+		
+11) Property Binding in the Angular. Bind Property to the attributes in the angular template.
+	Step 1: Define a Component Property
+		In your component TypeScript file (e.g., app.component.ts)
+		
+		import { Component } from '@angular/core';
+		@Component({
+		  selector: 'app-root',
+		  templateUrl: './app.component.html'
+		})
+		export class AppComponent {
+		  imageSource: string = 'path/to/image.jpg';
+		  buttonDisabled: boolean = true;
+		}
+	Step 2: Use Property Binding in the Template
+	Example 1:
+		<img [src]="imageSource" alt="Image">
+	Example 2:
+		<button [disabled]="buttonDisabled">Click Me</button>
+		
+12) Event Binding in Angular. Handle Click Events in the Angular Explained.
+	Step 1: Define a Component Method
+		In your component TypeScript file (e.g., app.component.ts)
+	
+		import { Component } from '@angular/core';
+		@Component({
+		  selector: 'app-root',
+		  templateUrl: './app.component.html'
+		})
+		export class AppComponent {
+		  handleClick() {
+			alert('Button Clicked!');
+		  }
+		}
+	Step 2: Use Event Binding in the Template
+	In your component's template (e.g., app.component.html)
+	
+	Example: 
+		<button (click)="handleClick()">Click Me</button>
+
+13) Send Data from the event Binding using $event reserved word in Angular
+	Step 1: Define a Component Method
+		In your component TypeScript file (e.g., app.component.ts)
+	
+		import { Component } from '@angular/core';
+		@Component({
+		  selector: 'app-root',
+		  templateUrl: './app.component.html'
+		})
+		export class AppComponent {
+		  handleClick(event: any) {
+			const valueFromEvent = event.target.value;
+			console.log('Value from event:', valueFromEvent);
+		  }
+		}
+	Step 2: Use Event Binding with $event in the Template
+		In your component's template (e.g., app.component.html)
+		<input type="text" (input)="handleClick($event)">
+
+14) Two way Data Binding in the angular. Learn the use of ngModel in the angular
+	Step 1: Import the FormsModule
+	Open your application module file (app.module.ts) and import the FormsModule from @angular/forms:
+	
+	import { NgModule } from '@angular/core';
+	import { BrowserModule } from '@angular/platform-browser';
+	import { FormsModule } from '@angular/forms'; // Import FormsModule
+	import { AppComponent } from './app.component';
+
+	@NgModule({
+	  declarations: [AppComponent],
+	  imports: [BrowserModule, FormsModule], // Add FormsModule to the imports array
+	  providers: [],
+	  bootstrap: [AppComponent]
+	})
+	export class AppModule {}
+	
+	Step 2: Use ngModel in the Template
+	In your component's template (e.g., app.component.html), use the ngModel directive to bind the input element to the component's property.
+
+	<input type="text" [(ngModel)]="name">
+	<h1>Hello, {{ name }}!</h1>
+
+15) Using ngIf Structural Directive to output the data conditionally in the Angular Template.
+
+	Step 1: Define a Component Property
+	In your component TypeScript file (e.g., app.component.ts)
+
+		import { Component } from '@angular/core';
+
+		@Component({
+		  selector: 'app-root',
+		  templateUrl: './app.component.html'
+		})
+		export class AppComponent {
+		  showData: boolean = true;
+			toggleData() {
+				this.showData = !this.showData;
+			}
+		}
+	Step 2: Use ngIf in the Template
+	In your component's template (e.g., app.component.html)
+	
+	<div *ngIf="showData">
+	  <p>Data to be displayed when showData is true.</p>
+	</div>
+	<div *ngIf="!showData">
+	  <p>Data to be displayed when showData is false.</p>
+	</div>
+	
+	<button (click)="toggleData()">Toggle Data</button>
+
+16) Use ngIf with else condition in the HTML Template for Angular Component.
+	Step 1: Define a Component Property
+		In your component TypeScript file (e.g., app.component.ts)
+		import { Component } from '@angular/core';
+
+		@Component({
+		  selector: 'app-root',
+		  templateUrl: './app.component.html'
+		})
+		export class AppComponent {
+		  showData: boolean = true;
+			toggleData() {
+				this.showData = !this.showData;
+			}
+		}
+	Step 2: Use ngIf with else in the Template
+	In your component's template (e.g., app.component.html)
+	
+	<div *ngIf="showData; else alternativeTemplate">
+	  <p>Data to be displayed when showData is true.</p>
+	</div>
+
+	<ng-template #alternativeTemplate>
+	  <p>Data to be displayed when showData is false.</p>
+	</ng-template>
+	
+	<button (click)="toggleData()">Toggle Data</button>
+
+17) Styling Dynamically for the Component Templates using ngStyle attribute Directive in angular.
+	Example 1:
+		Step 1: Define Component Properties
+			In your component TypeScript file (e.g., app.component.ts)
+			import { Component } from '@angular/core';
+
+			@Component({
+			  selector: 'app-root',
+			  templateUrl: './app.component.html'
+			})
+			export class AppComponent {
+			  backgroundColor: string = 'blue';
+			  fontSize: number = 16;
+			  textColor: string = 'white';
+			  
+				updateStyles() {
+					this.backgroundColor = 'red';
+					this.fontSize = 24;
+					this.textColor = 'black';
+				}
+			}
+		Step 2: Use ngStyle in the Template
+			In your component's template (e.g., app.component.html)
+			<div [ngStyle]="{
+			  'background-color': backgroundColor,
+			  'font-size.px': fontSize,
+			  'color': textColor
+			}">
+			  This is a dynamically styled element.
+			</div>
+			<button (click)="updateStyles()">Change Styles</button>
+	Example 2:
+		Step 1: Define Component Properties
+		In your component TypeScript file (e.g., app.component.ts)
+		
+		import { Component } from '@angular/core';
+		@Component({
+		  selector: 'app-root',
+		  templateUrl: './app.component.html'
+		})
+		export class AppComponent {
+		  isHighlighted: boolean = true;
+		  textColor: string = 'red';
+		}
+		
+		Step 2: Use ngStyle in the Template
+		In your component's template (e.g., app.component.html)
+		
+		<div [ngStyle]="{
+		  'background-color': isHighlighted ? 'yellow' : 'white',
+		  'color': textColor
+		}">
+		  <p>This div has dynamic styles applied using ngStyle.</p>
+		</div>
+		
+18)Apply CSS Classes Dynamically with ngClass Attribute Directive in the Angular Template Component
+
+	Step 1: Define Component Properties
+	In your component TypeScript file (e.g., app.component.ts)
+	import { Component } from '@angular/core';
+	@Component({
+	  selector: 'app-root',
+	  templateUrl: './app.component.html'
+	})
+	export class AppComponent {
+	  isHighlighted: boolean = true;
+	  isUnderlined: boolean = false;
+	}
+	
+	Step 2: Use ngClass in the Template
+	In your component's template (e.g., app.component.html)
+	<div [ngClass]="{
+	  'highlighted': isHighlighted,
+	  'underlined': isUnderlined
+	}">
+	  <p>This div has dynamic CSS classes applied using ngClass.</p>
+	</div>
+	
+	Step 3: Define CSS Classes in Stylesheet
+	In your component's stylesheet (e.g., app.component.css)
+	.highlighted {
+	  background-color: yellow;
+	}
+
+	.underlined {
+	  text-decoration: underline;
+	}
+	
+19)Use of *ngFor Structural Directive for outputting the Lists in the Angular Component.
+
+	Step 1: Define a Component Property (Array or Iterable)
+	In your component TypeScript file (e.g., app.component.ts)
+	import { Component } from '@angular/core';
+
+	@Component({
+	  selector: 'app-root',
+	  templateUrl: './app.component.html'
+	})
+	export class AppComponent {
+	  fruits: string[] = ['Apple', 'Banana', 'Orange'];
+	}
+	
+	Step 2: Use *ngFor in the Template
+	In your component's template (e.g., app.component.html)
+	<ul>
+	  <li *ngFor="let fruit of fruits">{{ fruit }}</li>
+	</ul>
+
+20)Send Data from Parent to Child Component using Custom Properties with @Input() in Angular.
+	Step 1: Define Input Property in the Child Component
+	In the child component TypeScript file (e.g., child.component.ts)
+	
+	import { Component, Input } from '@angular/core';
+	@Component({
+	  selector: 'app-child',
+	  templateUrl: './child.component.html'
+	})
+	export class ChildComponent {
+	  @Input() dataFromParent: string;
+	}
+	
+	Step 2: Use the Child Component in the Parent Component Template
+	In the parent component template (e.g., parent.component.html)
+	
+	<app-child [dataFromParent]="parentData"></app-child>
+	In this example, we're using the app-child component and binding the dataFromParent property to a value called parentData in the parent component. 
+	This means that whenever parentData changes in the parent component, the value will automatically be passed to the child component's dataFromParent property.
+
+	Step 3: Set Parent Component Property
+	In the parent component TypeScript file (e.g., parent.component.ts)
+	
+	import { Component } from '@angular/core';
+	@Component({
+	  selector: 'app-parent',
+	  templateUrl: './parent.component.html'
+	})
+	export class ParentComponent {
+	  parentData: string = 'Data from parent to child!';
+	}
+	
+	Step 4: Use the Data in the Child Component Template
+	In the child component template (e.g., child.component.html)
+	
+	<p>Data received from parent: {{ dataFromParent }}</p>
+	
+21)Send Data from Child to Parent Component. Binding to Custom Events using @Output in Angular.
+
+	Step 1: Define Output Property in the Child Component
+	In the child component TypeScript file (e.g., child.component.ts)
+	
+	import { Component, Output, EventEmitter } from '@angular/core';
+	@Component({
+	  selector: 'app-child',
+	  templateUrl: './child.component.html'
+	})
+	export class ChildComponent {
+	  @Output() dataToParent: EventEmitter<string> = new EventEmitter<string>();
+
+	  sendDataToParent() {
+		const data = 'Data from child to parent!';
+		this.dataToParent.emit(data);
+	  }
+	}
+	
+	Step 2: Use the Child Component in the Parent Component Template
+	In the parent component template (e.g., parent.component.html)
+	
+	<app-child (dataToParent)="receiveDataFromChild($event)"></app-child>
+	
+	Step 3: Define the Parent Component Method
+	In the parent component TypeScript file (e.g., parent.component.ts)
+	
+	import { Component } from '@angular/core';
+	@Component({
+	  selector: 'app-parent',
+	  templateUrl: './parent.component.html'
+	})
+	export class ParentComponent {
+	  receiveDataFromChild(data: string) {
+		console.log('Data received from child:', data);
+	  }
+	}
+	
+22)Understand View Encapsulation in Angular. Difference between Emulated, None, and Shadow Dom.
+	Emulated : every element get unic id like: <p jgd27635337333_4764></p>and apply styles for component.
+	None : every element not unic normal like: <p></p> This styles are apply like globle css
+	ShadowDom: every element not unic normal like: <p></p> This styles are 
+
+
+23)Using Local References in Angular. Access the HTML Element in the Typescript file.
+	Step 1: Define Local Reference in the Template
+	In your component's template (e.g., app.component.html)
+	
+	<input type="text" #textInput>
+	<button (click)="onButtonClick(textInput.value)">Submit</button>
+	In this example, we've created a local reference named textInput for the input element. We'll use this reference to access the input element in our component's TypeScript file.
+
+	Step 2: Access HTML Element in TypeScript File
+	In your component TypeScript file (e.g., app.component.ts)
+	
+	import { Component, ViewChild, ElementRef } from '@angular/core';
+	@Component({
+	  selector: 'app-root',
+	  templateUrl: './app.component.html'
+	})
+	export class AppComponent {
+	  @ViewChild('textInput', { static: false }) textInputRef: ElementRef;
+
+	  onButtonClick(inputValue: string) {
+		console.log('Input Value:', inputValue);
+		console.log('Input Element Reference:', this.textInputRef.nativeElement);
+	  }
+	} 
+	
+24)Access HTML Elements in The DOM & Template with @ViewChild and the type ElementRef in Angular.
+
+	Step 1: Define a Template Element
+	In your component's template (e.g., app.component.html)
+
+	<button #submitButton>Submit</button>
+	In this example, we have a button element with a local reference named submitButton.
+
+	Step 2: Access the HTML Element in TypeScript File
+	In your component TypeScript file (e.g., app.component.ts)
+
+	import { Component, ViewChild, ElementRef } from '@angular/core';
+	@Component({
+	  selector: 'app-root',
+	  templateUrl: './app.component.html'
+	})
+	export class AppComponent {
+	  @ViewChild('submitButton', { static: false }) submitButtonRef: ElementRef;
+
+	  ngAfterViewInit() {
+		// Accessing the DOM element
+		const buttonElement: HTMLButtonElement = this.submitButtonRef.nativeElement;
+		console.log('Button Element:', buttonElement);
+
+		// Modifying the DOM element
+		buttonElement.disabled = true;
+	  }
+	}
+
+25)Projecting the HTML Content written between the component using ng-content in Angular.
+	Step 1: Create the Parent Component
+	Create the parent component (e.g., parent.component.html):
+
+	<div class="parent-component">
+	  <h2>Parent Component</h2>
+	  <app-child>
+		<p>This content is projected from the parent component.</p>
+		<button>Click Me</button>
+	  </app-child>
+	</div>
+	
+	Step 2: Create the Child Component
+	Create the child component (e.g., child.component.html):
+
+	<div class="child-component">
+	  <h3>Child Component</h3>
+	  <ng-content></ng-content>
+	</div>
+
+26)Understanding the Component Life cycle methods in the Angular.
+	1)constructor: 
+		The constructor is the first method called when a component is created. 
+		It is used to initialize the component and its properties. However, it is not recommended to perform complex initialization here that depends 
+		on input bindings or injected dependencies.
+
+	2)ngOnChanges:
+		This hook is called whenever one or more of the component's input properties (@Input) change.
+		It receives a SimpleChanges object that contains the previous and current values of the input properties. 
+		You can use this hook to react to input changes and perform necessary actions based on the changes.
+
+	3)ngOnInit: 
+		This hook is called once when the component is initialized after the first ngOnChanges call. 
+		It is commonly used for component initialization that depends on input properties or performing API calls. 
+		This is a good place to initialize data or set up subscriptions.
+
+	4)ngDoCheck: 
+		This hook is called during every change detection cycle, and it allows you to implement your own custom change detection logic. 
+		It can be useful when you want to optimize the performance of your component or track changes that Angular's default change detection system might miss.
+
+	5)ngAfterContentInit:
+		This hook is called after the component's content (content projection) has been initialized. 
+		It is useful when you need to interact with projected content.
+
+	6)ngAfterContentChecked: 
+		This hook is called after the component's content has been checked for changes.
+		It is useful when you need to perform additional actions after the content has been updated.
+
+	7)ngAfterViewInit: 
+		This hook is called after the component's view and child views (if any) have been initialized. 
+		It is useful when you need to interact with the DOM or child components that are part of the template.
+
+	8)ngAfterViewChecked: 
+		This hook is called after the component's view and child views have been checked for changes. 
+		It is useful when you need to perform additional actions after the view has been updated.
+
+	9)ngOnDestroy: 
+		This hook is called just before the component is destroyed. 
+		It is used to clean up resources such as subscriptions or event listeners to prevent memory leaks.
+
+27)Getting access to the ng-content HTML template using @ContentChild in Angular.
+	Step 1: Create the Parent Component
+	Create the parent component (e.g., parent.component.html):
+
+	<div class="parent-component">
+	  <h2>Parent Component</h2>
+	  <app-child>
+		<p #projectedContent>Content projected from the parent component.</p>
+		<button>Click Me</button>
+	  </app-child>
+	</div>
+	
+	Step 2: Create the Child Component
+	Create the child component (e.g., child.component.ts):
+
+	import { Component, ContentChild, AfterContentInit, ElementRef } from '@angular/core';
+	@Component({
+	  selector: 'app-child',
+	  templateUrl: './child.component.html'
+	})
+	export class ChildComponent implements AfterContentInit {
+	  @ContentChild('projectedContent', { static: false }) projectedContentRef: ElementRef;
+
+	  ngAfterContentInit() {
+		if (this.projectedContentRef) {
+		  console.log('Projected Content:', this.projectedContentRef.nativeElement.textContent);
+		}
+	  }
+	}
+28)Create Basic Custom attribute Directive in Angular
+	Step 1: Generate the Directive
+		Use the Angular CLI to generate the custom directive
+		ng generate directive highlight
+		
+	Step 2: Implement the Directive Logic
+		Open the highlight.directive.ts file and implement the directive logic:
+		import { Directive, ElementRef, HostListener } from '@angular/core';
+
+		@Directive({
+		  selector: '[appHighlight]'
+		})
+		export class HighlightDirective {
+
+		  constructor(private el: ElementRef) { }
+
+		  @HostListener('mouseenter') onMouseEnter() {
+			this.highlight('yellow');
+		  }
+
+		  @HostListener('mouseleave') onMouseLeave() {
+			this.highlight(null);
+		  }
+
+		  private highlight(color: string) {
+			this.el.nativeElement.style.backgroundColor = color;
+		  }
+		}
+	Step 3: Use the Directive in a Component
+	Now, let's use the appHighlight directive in a component's template (e.g., app.component.html):
+
+		<div appHighlight>
+		  Hover over me to see the effect!
+		</div>
+	Step 4: Add the Directive to the Module
+		In app.module.ts:
+			import { NgModule } from '@angular/core';
+			import { BrowserModule } from '@angular/platform-browser';
+
+			import { AppComponent } from './app.component';
+			import { HighlightDirective } from './highlight.directive';
+
+			@NgModule({
+				declarations: [
+				AppComponent,
+				HighlightDirective
+				],
+				imports: [
+				BrowserModule
+				],
+				bootstrap: [AppComponent]
+			})
+			export class AppModule { }
+			
+29)Using Renderer2 to create the custom attribute directive to maipulate DOM in Angular
+	Step 1: Generate the Directive
+		Generate the custom directive using the Angular CLI:
+		ng generate directive highlight
+		
+	Step 2: Implement the Directive Logic
+	Open the highlight.directive.ts file and implement the directive logic using the Renderer2:
+	
+	import { Directive, ElementRef, HostListener, Renderer2 } from '@angular/core';
+	@Directive({
+	  selector: '[appHighlight]'
+	})
+	export class HighlightDirective {
+
+	  constructor(private el: ElementRef, private renderer: Renderer2) { }
+
+	  @HostListener('mouseenter') onMouseEnter() {
+		this.renderer.setStyle(this.el.nativeElement, 'background-color', 'yellow');
+		this.renderer.setStyle(this.el.nativeElement, 'font-size', '20px');
+	  }
+
+	  @HostListener('mouseleave') onMouseLeave() {
+		this.renderer.removeStyle(this.el.nativeElement, 'background-color');
+		this.renderer.removeStyle(this.el.nativeElement, 'font-size');
+	  }
+	}
+	Step 3: Use the Directive in a Component
+	Use the appHighlight directive in a component's template:
+	
+	<div appHighlight>
+	  Hover over me to see the effect!
+	</div>
+	
+	Step 4: Add the Directive to the Module
+	In app.module.ts:
+	import { NgModule } from '@angular/core';
+	import { BrowserModule } from '@angular/platform-browser';
+
+	import { AppComponent } from './app.component';
+	import { HighlightDirective } from './highlight.directive';
+
+	@NgModule({
+	  declarations: [
+		AppComponent,
+		HighlightDirective
+	  ],
+	  imports: [
+		BrowserModule
+	  ],
+	  bootstrap: [AppComponent]
+	})
+	export class AppModule { }
+
+30)Accessing the events for the directive element using HostListener in Angular
+	Step 1: Generate the Directive
+		ng generate directive colorChanger
+	
+	Step 2: Implement the Directive Logic
+		Open the color-changer.directive.ts file and implement the directive logic using @HostListener:
+
+		import { Directive, HostListener, ElementRef, Renderer2 } from '@angular/core';
+		@Directive({
+		  selector: '[appColorChanger]'
+		})
+		export class ColorChangerDirective {
+		  constructor(private el: ElementRef, private renderer: Renderer2) { }
+
+		  @HostListener('click') onClick() {
+			this.changeColor('blue');
+		  }
+
+		  private changeColor(color: string) {
+			this.renderer.setStyle(this.el.nativeElement, 'color', color);
+		  }
+		}
+	
+	Step 3: Use the Directive in a Component
+		Now, let's use the appColorChanger directive in a component's template (e.g., app.component.html):
+
+		<div appColorChanger>
+		  Click me to change my text color!
+		</div>
+	
+	Step 4: Add the Directive to the Module
+		In app.module.ts:
+		import { NgModule } from '@angular/core';
+		import { BrowserModule } from '@angular/platform-browser';
+
+		import { AppComponent } from './app.component';
+		import { ColorChangerDirective } from './color-changer.directive';
+
+		@NgModule({
+		  declarations: [
+			AppComponent,
+			ColorChangerDirective
+		  ],
+		  imports: [
+			BrowserModule
+		  ],
+		  bootstrap: [AppComponent]
+		})
+		export class AppModule { }
+		
+31)Using HostBinding Decorator to bind the Properties for the Directive element in the Angular.
+	Step 1: Generate the Directive
+		Generate the custom directive using the Angular CLI:
+		ng generate directive textStyler
+	
+	Step 2: Implement the Directive Logic
+		Open the text-styler.directive.ts file and implement the directive logic using @HostBinding:
+
+		import { Directive, HostBinding, HostListener } from '@angular/core';
+		@Directive({
+		  selector: '[appTextStyler]'
+		})
+		export class TextStylerDirective {
+		  @HostBinding('style.color') textColor: string;
+		  @HostBinding('style.fontWeight') fontWeight: string;
+
+		  @HostListener('mouseenter') onMouseEnter() {
+			this.textColor = 'blue';
+			this.fontWeight = 'bold';
+		  }
+
+		  @HostListener('mouseleave') onMouseLeave() {
+			this.textColor = 'black';
+			this.fontWeight = 'normal';
+		  }
+		}
+	Step 3: Use the Directive in a Component
+		Now, let's use the appTextStyler directive in a component's template (e.g., app.component.html):
+
+		<div appTextStyler>
+		  Hover over me to see the effect!
+		</div>
+	
+	Step 4: Add the Directive to the Module
+		Don't forget to add the TextStylerDirective to the module where you want to use it. In most cases, this will be the AppModule.
+
+		In app.module.ts:
+		import { NgModule } from '@angular/core';
+		import { BrowserModule } from '@angular/platform-browser';
+
+		import { AppComponent } from './app.component';
+		import { TextStylerDirective } from './text-styler.directive';
+
+		@NgModule({
+		  declarations: [
+			AppComponent,
+			TextStylerDirective
+		  ],
+		  imports: [
+			BrowserModule
+		  ],
+		  bootstrap: [AppComponent]
+		})
+		export class AppModule { }
+32)Sending input data to the Directives as Input properties in the Angular.
+	step 1: Use the Directive in a Component:
+		Next, you can use the created directive in a component's template and pass data to it using the input property.
+		<!-- Your component template -->
+		<div appCustomDirective [customData]="yourData"></div>
+		
+	step 2: Access the Input Property in the Directive:
+		Inside the directive, you can access the input property (customData) using the same name you defined in the directive class.
+		import { Directive, Input } from '@angular/core';
+
+		@Directive({
+		  selector: '[appCustomDirective]'
+		})
+		export class CustomDirective {
+		  @Input() customData: any;
+
+		  ngOnInit() {
+			// You can access the input data in the directive's logic here
+			console.log(this.customData);
+		  }
+		}
+
+33)Create Custom Structural Directive in the Angular using TemplateRef and ViewContainerRef
+	step 1: Create the custom structural directive:
+	import { Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
+	@Directive({
+	  selector: '[appCustomStructuralDirective]'
+	})
+	export class CustomStructuralDirective {
+	  constructor(
+		private templateRef: TemplateRef<any>,
+		private viewContainerRef: ViewContainerRef
+	  ) {}
+
+	  @Input() set  (condition: boolean) {
+		// If the condition is true, render the template. Otherwise, clear the view container.
+		if (condition) {
+		  this.viewContainerRef.createEmbeddedView(this.templateRef);
+		} else {
+		  this.viewContainerRef.clear();
+		}
+	  }
+	}
+
+	step 2: Use the Component with the Structural Directive:
+	import { Component } from '@angular/core';
+	@Component({
+	  selector: 'app-example',
+	  template: `
+		<div *appCustomStructuralDirective="someCondition">
+		  This content will be shown conditionally based on 'someCondition'.
+		</div>
+	  `
+	})
+	export class ExampleComponent {
+	  someCondition: boolean = true; // Set it to true or false to control the visibility of the content.
+	}
+34)How to use ngSwitch, ngSwitchCase, ngSwitchDefault Directive in the Angular Template.
+	step 1: Import the CommonModule:
+	import { CommonModule } from '@angular/common';
+
+	@NgModule({
+	  imports: [
+		CommonModule,
+		// Other imports
+	  ],
+	  // Other module configurations
+	})
+	export class YourModule { }
+
+	step 2: Use ngSwitch with ngSwitchCase and ngSwitchDefault in the template:
+	<div [ngSwitch]="condition">
+	  <div *ngSwitchCase="'case1'">Content for case 1</div>
+	  <div *ngSwitchCase="'case2'">Content for case 2</div>
+	  <div *ngSwitchCase="'case3'">Content for case 3</div>
+	  <div *ngSwitchDefault>Default content</div>
+	</div>
+	
+35) Create New Service and use the service as Data in Angular. Pass Data from service to Components
+	Step 1: Create the Service
+		Generate a new service using the Angular CLI:
+		ng generate service data-service
+	Step 2: Define the Service
+		import { Injectable } from '@angular/core';
+		@Injectable({
+		  providedIn: 'root'
+		})
+		export class DataService {
+		  private sampleData: number[] = [1, 2, 3, 4, 5];
+
+		  getSampleData(): number[] {
+			return this.sampleData;
+		  }
+		}
+	Step 3: Use the Service in a Component
+		import { Component } from '@angular/core';
+		import { DataService } from './data-service.service';
+
+		@Component({
+			selector: 'app-data-component',
+			template: `
+			<h2>Sample Data</h2>
+			<ul>
+			  <li *ngFor="let item of data">{{ item }}</li>
+			</ul>
+			`
+		})
+		export class DataComponent {
+			data: number[];
+
+			constructor(private dataService: DataService) {
+			this.data = this.dataService.getSampleData();
+			}
+		}
+	Step 4: Register the Component
+		//app.module.ts
+		import { NgModule } from '@angular/core';
+		import { BrowserModule } from '@angular/platform-browser';
+		import { AppComponent } from './app.component';
+		import { DataComponent } from './data.component';
+		import { DataService } from './data-service.service';
+
+		@NgModule({
+		declarations: [
+		AppComponent,
+		DataComponent
+		],
+		imports: [
+		BrowserModule
+		],
+		providers: [DataService], // Include the service in the providers array
+		bootstrap: [AppComponent]
+		})
+		export class AppModule { }
+
+36) different type of services
+	a) Singleton Services (Root Services):
+		Singleton services are created and provided at the root level and have a single instance throughout the entire application.
+		They are shared across all components and modules that inject them. Angular provides the same instance whenever the service is requested.
+		To create a singleton service, use the @Injectable() decorator with the "providedIn: 'root'" property in the service's class definition:
+		Example:
+			import { Injectable } from '@angular/core';
+
+			@Injectable({
+				providedIn: 'root'
+			})
+			export class MySingletonService {
+				// Service logic and methods here
+			}
+
+	b) Module-Level Services:
+		Services can also be provided at the module level. When a service is provided in the providers array of a specific module, 
+		it acts as a singleton only within that module and its child modules.
+		Example:
+			@Injectable()
+			export class MyModuleService {
+			  // Service logic and data
+			}
+
+			In the  app.module:
+			@NgModule({
+				providers: [MyModuleService]
+			})
+			export class MyModule { }
+
+	c) Component-level Services:
+		Component-level providers are used when you want each instance of a component to have its own instance of a service. 
+		This is useful when you want to encapsulate the service within a specific component instance, and each component instance operates independently without affecting others.
+		Example:
+			@Injectable()
+			export class MyComponentService {
+				// Service logic and data
+			}
+			
+			In the component:
+			@Component({
+				selector: 'app-my-component',
+				template: '...',
+				providers: [MyComponentService]
+			})
+			export class MyComponent { }
+37)Injecting Services into another Services. Usage of @Injectable decorator in the angular.
+	step 1: Create the Services:
+			ng generate service service-name
+	step 2: Define the Services:
+			For example, let's create two simple services:
+			// service-one.service.ts
+			import { Injectable } from '@angular/core';
+
+			@Injectable({
+				providedIn: 'root'
+			})
+			export class ServiceOne {
+				getValue(): number {
+					return 42;
+				}
+			}
+			
+			// service-two.service.ts
+			import { Injectable } from '@angular/core';
+			import { ServiceOne } from './service-one.service';
+
+			@Injectable({
+				providedIn: 'root'
+			})
+			export class ServiceTwo {
+			constructor(private serviceOne: ServiceOne) {}
+
+				useValue(): number {
+					const value = this.serviceOne.getValue();
+					return value * 2;
+				}
+			}
+	step 3:  In a component:
+			import { Component } from '@angular/core';
+			import { ServiceTwo } from './service-two.service';
+
+			@Component({
+				selector: 'app-my-component',
+				template: '<p>{{ result }}</p>'
+			})
+			export class MyComponent {
+				result: number;
+
+				constructor(private serviceTwo: ServiceTwo) {
+					this.result = this.serviceTwo.useValue();
+				}
+			}
+38) Making the cross component communication using the services by event emitter in the angular.
+	Step 1: Create a Shared Service
+		import { Injectable, EventEmitter } from '@angular/core';
+
+		@Injectable({
+			providedIn: 'root'
+		})
+		export class SharedService {
+			dataUpdated: EventEmitter<string> = new EventEmitter<string>();
+
+			emitDataUpdated(data: string) {
+				this.dataUpdated.emit(data);
+			}
+		}
+		
+	Step 2: Emitting the Event
+		import { Component } from '@angular/core';
+		import { SharedService } from './shared.service';
+
+		@Component({
+			selector: 'app-emitter-component',
+			template: `
+			<button (click)="sendData()">Send Data</button>
+			`
+		})
+		export class EmitterComponent {
+			constructor(private sharedService: SharedService) {}
+
+			sendData() {
+				const dataToSend = 'Hello from EmitterComponent!';
+				this.sharedService.emitDataUpdated(dataToSend);
+			}
+		}
+		
+	Step 3: Subscribing to the Event
+		import { Component, OnDestroy } from '@angular/core';
+		import { SharedService } from './shared.service';
+		import { Subscription } from 'rxjs';
+
+		@Component({
+			selector: 'app-receiver-component',
+			template: `
+			<p>Data from EmitterComponent: {{ receivedData }}</p>
+			`
+		})
+		export class ReceiverComponent implements OnDestroy {
+			receivedData: string;
+			private subscription: Subscription;
+
+			constructor(private sharedService: SharedService) {
+				this.subscription = this.sharedService.dataUpdated.subscribe((data: string) => {
+				this.receivedData = data;
+				});
+			}
+
+			ngOnDestroy() {
+				// Unsubscribe to avoid memory leaks
+				this.subscription.unsubscribe();
+			}
+		}
+39) Introduction to Angular Routing. Set up and load routes with RouterModule in angular.
+Step 1: Create components for your routes:
+		ng generate component home
+		ng generate component about
+		
+Step 2: Configure the routes:
+		//app-routing.module.ts
+		import { NgModule } from '@angular/core';
+		import { RouterModule, Routes } from '@angular/router';
+		import { HomeComponent } from './home/home.component';
+		import { AboutComponent } from './about/about.component';
+
+		const routes: Routes = [
+		  { path: '', component: HomeComponent }, // Default route
+		  { path: 'home', component: HomeComponent }, // Home route
+		  { path: 'about', component: AboutComponent }, // About route
+		  // Add more routes as needed
+		];
+
+		@NgModule({
+		  imports: [RouterModule.forRoot(routes)],
+		  exports: [RouterModule]
+		})
+		export class AppRoutingModule { }
+		
+Step 3: Add the <router-outlet> tag:
+		<!-- src/app/app.component.html -->
+		<router-outlet></router-outlet>
+		
+Step 4: Update the AppModule:
+		//app.module.ts
+		import { NgModule } from '@angular/core';
+		import { BrowserModule } from '@angular/platform-browser';
+		import { AppRoutingModule } from './app-routing.module'; // Import the AppRoutingModule
+		import { AppComponent } from './app.component';
+		import { HomeComponent } from './home/home.component';
+		import { AboutComponent } from './about/about.component';
+
+		@NgModule({
+		  declarations: [
+			AppComponent,
+			HomeComponent,
+			AboutComponent
+		  ],
+		  imports: [
+			BrowserModule,
+			AppRoutingModule // Add the AppRoutingModule here
+		  ],
+		  providers: [],
+		  bootstrap: [AppComponent]
+		})
+		export class AppModule { }
+		
+40) Navigating Links in the Page using RouterLink in the angular.
+a) Use the RouterLink directive in the template to create navigation links. 
+		<!-- src/app/app.component.html -->
+		<!-- Example: home.component.html -->
+		<h1>Welcome to the Home Page!</h1>
+		<p>Click the links below to navigate:</p>
+
+		<!-- RouterLink for Home route -->
+		<a routerLink="/home">Home</a>
+
+		<!-- RouterLink for About route -->
+		<a routerLink="/about">About</a>
+
+		<router-outlet></router-outlet>
+		
+b) Alternatively, you can use the RouterLink directive with a link parameter if your route contains dynamic segments. For example:
+	<!-- Example: product-detail.component.html -->
+	<h1>Product Details</h1>
+	<p>Product ID: {{ productId }}</p>
+
+	<!-- RouterLink with a parameter -->
+	<a [routerLink]="['/products', productId]">View Product</a>
+	
+41) Styling the Active Router Link using routerLinkActive and routerLinkActiveOptions in angular.
+	Example 1:
+	<!-- Example: app.component.html -->
+	<nav>
+		<a routerLink="/home" routerLinkActive="active-link">Home</a>
+		<a routerLink="/about" routerLinkActive="active-link">About</a>
+		<!-- Add more navigation links as needed -->
+	</nav>
+
+	Example 2:
+	<!-- Example: app.component.html -->
+	<nav>
+	  <a routerLink="/home" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">Home</a>
+	  <a routerLink="/about" routerLinkActive="active-link">About</a>
+	  <!-- Add more navigation links as needed -->
+	</nav>
+	
+	/*app.component.css or styles.css */
+	.active-link {
+	  font-weight: bold;
+	  color: red;
+	  /* Add any other styles you want to apply to the active link */
+	}
+
+42) Navigate between pages using router programmatically in Typescript code in angular
+Step 1: Inject the Router service in your component or service where you want to perform the navigation.
+		import { Router } from '@angular/router';
+Step 2: In the constructor of your component or service, inject the Router.
+		constructor(private router: Router) { }
+Step 3: Use the navigate() method of the Router service to navigate to the desired route. 
+		// Navigating to a specific route using a string path
+		navigateToHome() {
+		  this.router.navigate(['/home']);
+		}
+
+		// Navigating to a specific route using a string path with query parameters
+		navigateToProductDetails(productId: number) {
+		  this.router.navigate(['/products', productId], { queryParams: { showDetails: true } });
+		}
+
+		// Navigating to a specific route using an array of route segments
+		navigateToAbout() {
+		  this.router.navigate(['about']);
+		}
+
+43) Passing and Fetching Parameters to Routes using ActivatedRoute snapshot in Angular.
+Step 1: Passing Parameters as Part of the Route Path:
+		To pass parameters as part of the route path, define a dynamic segment in the route path using the colon (:) notation.
+		// app-routing.module.ts
+		const routes: Routes = [
+		  { path: 'products/:productId', component: ProductDetailComponent },
+		  // Other routes...
+		];
+Step 2: Passing Parameters as Query Parameters:
+		To pass parameters as query parameters, simply append them to the URL when navigating. 
+		// In the component or service where navigation is triggered
+		import { Router } from '@angular/router';
+
+		constructor(private router: Router) {}
+
+		navigateToProductDetails(productId: number) {
+		  this.router.navigate(['/products',33], { queryParams: { id: productId } });
+		}
+Step 3: 
+		a) Fetching Parameters Using ActivatedRoute:
+			In the component where you want to fetch the parameters, inject the ActivatedRoute service and access the parameters using the snapshot property.
+			// product-detail.component.ts
+			import { Component, OnInit } from '@angular/core';
+			import { ActivatedRoute } from '@angular/router';
+
+			@Component({
+			  selector: 'app-product-detail',
+			  templateUrl: './product-detail.component.html',
+			  styleUrls: ['./product-detail.component.css']
+			})
+			export class ProductDetailComponent implements OnInit {
+			  productId: number;
+
+			  constructor(private route: ActivatedRoute) {}
+
+			  ngOnInit() {
+				// Fetching parameters from the snapshot
+				this.productId = +this.route.snapshot.params.productId;
+				// Alternatively, to fetch query parameters: this.route.snapshot.queryParams
+			  }
+			}
+		b) Fetching Parameters Using subscribe()and Unsubscribe() when the component is destroyed (Optional):
+			While fetching parameters from the ActivatedRoute snapshot is convenient and works well for one-time initialization, 
+			it's essential to note that route parameters may change without triggering a full component reload. 
+			
+			// product-detail.component.ts
+			import { Component, OnInit } from '@angular/core';
+			import { ActivatedRoute } from '@angular/router';
+
+			@Component({
+			  selector: 'app-product-detail',
+			  templateUrl: './product-detail.component.html',
+			  styleUrls: ['./product-detail.component.css']
+			})
+			export class ProductDetailComponent implements OnInit {
+			  productId: number;
+
+			  constructor(private route: ActivatedRoute) {}
+
+			  ngOnInit() {
+				// Subscribing to route parameter changes
+				const routeSubscription = this.route.params.subscribe(params => {
+				  this.productId = +params.productId;
+				});
+			  }
+			  ngOnDestroy() {
+				// Unsubscribe from the route subscription to avoid memory leaks
+				this.routeSubscription.unsubscribe();
+			  }
+			}
+
+44) Passing Query Parameters and Fragments to the Url Route with the Template and Program in Angular
+	Example 1: Passing Query Parameters and Fragments in the Template:
+				To pass query parameters and fragments in the template, you can use the routerLink 
+				directive and the [queryParams] and [fragment] bindings.
+				<!-- Example: app.component.html -->
+				<nav>
+					<!-- Passing query parameters and a fragment using routerLink in the template -->
+					<a [routerLink]="['/products']" [queryParams]="{ category: 'electronics' }" [fragment]="'top'">
+					Electronics Products
+					</a>
+				</nav>
+	Example 2: Passing Query Parameters and Fragments Programmatically:
+				To pass query parameters and fragments programmatically in your TypeScript code, 
+				use the navigate() method of the Router service and provide the queryParams and fragment options in the navigation configuration.
+				// Example: product-list.component.ts
+				import { Component } from '@angular/core';
+				import { Router } from '@angular/router';
+
+				@Component({
+					selector: 'app-product-list',
+					template: '<h1>Product List</h1>',
+				})
+				export class ProductListComponent {
+					constructor(private router: Router) {}
+
+					navigateToElectronicsProducts() {
+						const queryParams = { category: 'electronics' };
+						const fragment = 'top';
+
+						this.router.navigate(['/products'], { queryParams, fragment });
+					}
+				}
+45) Retrieving Query Parameters and Fragments from the URL through Typescript Code in the angular
+	Step 1: Import the required modules and classes:
+		import { Component, OnInit } from '@angular/core';
+		import { ActivatedRoute } from '@angular/router';
+	Step 2:  Inject the ActivatedRoute service:
+		constructor(private route: ActivatedRoute) { }
+	Step 3: Access the Query Parameters and Fragments:
+		a. Using snapshot (One-time access):
+			ngOnInit() {
+				// Fetching query parameters and fragment from the snapshot
+				const queryParams = this.route.snapshot.queryParams;
+				const fragment = this.route.snapshot.fragment;
+
+				// Do something with the query parameters and fragment
+				console.log('Query Params:', queryParams);
+				console.log('Fragment:', fragment);
+			}
+			Note: that using the snapshot provides a one-time access to the query parameters and fragment at the time the component is initialized.
+			If the parameters or fragment change while the component is already loaded, they will not be updated.
+
+		b. Using params observable (Reactive approach for real-time updates):
+			import { Subscription } from 'rxjs';
+
+			@Component({
+				selector: 'app-product-list',
+				template: '<h1>Product List</h1>',
+			})
+			export class ProductListComponent implements OnInit, OnDestroy {
+				queryParams: any;
+				fragment: string;
+				private routeSubscription: Subscription;
+
+				constructor(private route: ActivatedRoute) { }
+
+				ngOnInit() {
+					// Subscribing to the params observable for real-time updates
+					this.routeSubscription = this.route.queryParams.subscribe(params => {
+						this.queryParams = params;
+						// Do something with the query parameters
+						console.log('Query Params:', this.queryParams);
+					});
+
+					this.route.fragment.subscribe(fragment => {
+						this.fragment = fragment;
+						// Do something with the fragment
+						console.log('Fragment:', this.fragment);
+					});
+				}
+
+				ngOnDestroy() {
+					// Unsubscribe from the params observable to avoid memory leaks
+					this.routeSubscription.unsubscribe();
+				}
+			}
+			Using the params observable ensures that your component is updated with the latest query parameters and fragments whenever they change.
+			
+46) Setting up the child or Nested Routes using the children key in routing module in the Angular.
+	Step 1: Create a Parent Component
+			ng generate component parent
+
+	Step 2: Create Child Components
+			ng generate component child1
+			ng generate component child2
+			# Add more child components if necessary
+
+	Step 3: Configure the Parent Route with Children
+			##app-routing.module.ts
+			import { NgModule } from '@angular/core';
+			import { Routes, RouterModule } from '@angular/router';
+			import { ParentComponent } from './parent.component';
+			import { Child1Component } from './child1.component';
+			import { Child2Component } from './child2.component';
+
+			const routes: Routes = [
+			  {
+				path: 'parent',
+				component: ParentComponent,
+				children: [
+				  { path: 'child1', component: Child1Component },
+				  { path: 'child2', component: Child2Component },
+				  // Add more child routes if necessary
+				  // { path: 'child3', component: Child3Component },
+				],
+			  },
+			];
+
+			@NgModule({
+			  imports: [RouterModule.forRoot(routes)],
+			  exports: [RouterModule],
+			})
+			export class AppRoutingModule {}
+
+	Step 4: Add the <router-outlet> Element
+			<!-- parent.component.html -->
+			<h2>Parent Component</h2>
+			<router-outlet></router-outlet>
+
+	Step 5: Navigate to Child Routes
+			<!-- Link to Child1Component -->
+			<a routerLink="/parent/child1">Go to Child 1</a>
+
+			<!-- Link to Child2Component -->
+			<a routerLink="/parent/child2">Go to Child 2</a>
+							(or)
+			<!-- parent.component.html -->
+			<nav>
+				<ul>
+					<li><a routerLink="child1" routerLinkActive="active">Child 1</a></li>
+					<li><a routerLink="child2" routerLinkActive="active">Child 2</a></li>
+				</ul>
+			</nav>
+
+47)Preserve or merge the query parameters by forwarding with queryparamsHandling in Angular
+	Type 1: Using the routerLink directive in HTML:
+			<!-- Example using 'preserve' option -->
+			<a [routerLink]="['/target-route']" [queryParams]="{ param1: 'value1' }" queryParamsHandling="preserve">Go to Target</a>
+
+			<!-- Example using 'merge' option -->
+			<a [routerLink]="['/target-route']" [queryParams]="{ param1: 'value1' }" queryParamsHandling="merge">Go to Target</a>
+	Type 2: Programmatically using the Router service:
+			import { Router } from '@angular/router';
+
+			@Component({
+				// Component configuration
+			})
+			export class MyComponent {
+				constructor(private router: Router) {}
+
+				navigateToTargetWithParams() {
+					// Example using 'preserve' option
+					this.router.navigate(['/target-route'], { queryParams: { param1: 'value1' }, queryParamsHandling: 'preserve' });
+
+					// Example using 'merge' option
+					this.router.navigate(['/target-route'], { queryParams: { param1: 'value1' }, queryParamsHandling: 'merge' });
+				}
+			}
+		`queryParamsHandling="preserve"`, :: the URL will become example.com/target-route?param1=oldValue&param1=value1. 
+		`queryParamsHandling="merge"`, 	  :: the URL will be example.com/target-route?param1=value1.
+
+48)Impliment Custom 404 Page adding wildcard Route, redirectTo option in the angular routing module
+	Step 1: Create a Custom 404 Component:
+			ng generate component NotFound
+	Step 2: Update the Routing Module:
+			##app-routing.module.ts
+			import { NgModule } from '@angular/core';
+			import { RouterModule, Routes } from '@angular/router';
+
+			import { HomeComponent } from './home.component';
+			import { AboutComponent } from './about.component';
+			import { ContactComponent } from './contact.component';
+			import { NotFoundComponent } from './not-found.component'; // Import the custom 404 component
+
+			const routes: Routes = [
+				{ path: 'home', component: HomeComponent },
+				{ path: 'about', component: AboutComponent },
+				{ path: 'contact', component: ContactComponent },
+				// Add other routes here as needed
+
+				// Wildcard route for handling non-existing routes
+				{ path: '**', redirectTo: '/not-found' }, // Redirect to the custom 404 component
+			];
+
+			@NgModule({
+				imports: [RouterModule.forRoot(routes)],
+				exports: [RouterModule],
+			})
+			export class AppRoutingModule {}
+	Step 3: Define the 404 Route in AppComponent
+			<!-- app.component.html -->
+			<router-outlet></router-outlet>
+	Step 4: Handle the 404 Case:
+			##app.component.ts 
+			import { Component, OnInit } from '@angular/core';
+			import { Router, NavigationEnd } from '@angular/router';
+
+			@Component({
+				selector: 'app-root',
+				templateUrl: './app.component.html',
+				styleUrls: ['./app.component.css'],
+			})
+			export class AppComponent implements OnInit {
+				constructor(private router: Router) {}
+
+				ngOnInit() {
+					// Handle the 404 case (NavigationEnd event)
+					this.router.events.subscribe((event) => {
+						if (event instanceof NavigationEnd) {
+							if (event.url === '/not-found') {
+								// Redirect to home page or show a message
+								// Example: this.router.navigate(['/home']);
+							}
+						}
+					});
+				}
+			}
+49)Separate all the Routing configuration code into another file app-routing.module in the angular.
+	Step 1: app-routing.module.ts content:
+		import { NgModule } from '@angular/core';
+		import { RouterModule, Routes } from '@angular/router';
+
+		import { HomeComponent } from './home.component';
+		import { AboutComponent } from './about.component';
+		import { ContactComponent } from './contact.component';
+		import { NotFoundComponent } from './not-found.component'; // Import the custom 404 component
+
+		const routes: Routes = [
+		  { path: 'home', component: HomeComponent },
+		  { path: 'about', component: AboutComponent },
+		  { path: 'contact', component: ContactComponent },
+		  // Add other routes here as needed
+
+		  // Wildcard route for handling non-existing routes
+		  { path: '**', redirectTo: '/not-found' }, // Redirect to the custom 404 component
+		];
+
+		@NgModule({
+		  imports: [RouterModule.forRoot(routes)],
+		  exports: [RouterModule],
+		})
+		export class AppRoutingModule {}
+
+	Step 2: Import AppRoutingModule in app.module.ts:
+		import { NgModule } from '@angular/core';
+		import { BrowserModule } from '@angular/platform-browser';
+		import { AppRoutingModule } from './app-routing.module'; // Import the AppRoutingModule
+
+		import { AppComponent } from './app.component';
+
+		@NgModule({
+		  declarations: [AppComponent],
+		  imports: [BrowserModule, AppRoutingModule], // Include AppRoutingModule here
+		  providers: [],
+		  bootstrap: [AppComponent],
+		})
+		export class AppModule {}
+
+50) Introduction to Routing Guards?
+
+a)CanActivate: It controls whether a route can be activated or not based on a condition. It is commonly used to implement authentication and authorization checks.
+
+b)CanActivateChild: Similar to CanActivate, but specifically used for child routes to control their activation.
+
+c)CanDeactivate: It controls whether a user can navigate away from a route. It can be used to prompt the user for confirmation before leaving a page, for example.
+
+d)CanLoad: It controls whether the application can load feature modules lazily. It's used when you have feature modules that should be loaded only if certain conditions are met.
+
+a) implementing the "CanActivate":
+===============================
+	Step 1: Create the AuthGuard Service
+		// auth.guard.ts
+		import { Injectable } from '@angular/core';
+		import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
+		import { Observable } from 'rxjs';
+
+		@Injectable({
+		  providedIn: 'root'
+		})
+		export class AuthGuard implements CanActivate {
+		  constructor(private router: Router) {}
+
+		  canActivate(
+			route: ActivatedRouteSnapshot,
+			state: RouterStateSnapshot
+		  ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+			// Put your authentication or authorization logic here
+			// For example, check if the user is logged in or has certain permissions
+			const isAuthenticated = true; // Replace this with your actual authentication logic
+
+			if (isAuthenticated) {
+			  return true;
+			} else {
+			  // If not authenticated, redirect to the login page or a custom page
+			  this.router.navigate(['/login']); // Replace 'login' with your login page route
+			  return false;
+			}
+		  }
+		}
+
+	Step 2: Add the AuthGuard to Routes
+		// app-routing.module.ts
+		import { NgModule } from '@angular/core';
+		import { RouterModule, Routes } from '@angular/router';
+		import { HomeComponent } from './home.component';
+		import { AboutComponent } from './about.component';
+		import { ContactComponent } from './contact.component';
+		import { NotFoundComponent } from './not-found.component';
+		import { AuthGuard } from './auth.guard'; // Import the AuthGuard
+
+		const routes: Routes = [
+		  { path: 'home', component: HomeComponent },
+		  { path: 'about', component: AboutComponent },
+		  { path: 'contact', component: ContactComponent, canActivate: [AuthGuard] }, // Protect the 'contact' route
+		  // Add other routes here as needed
+
+		  { path: '**', component: NotFoundComponent }, // No guard needed for the 404 route
+		];
+
+		@NgModule({
+		  imports: [RouterModule.forRoot(routes)],
+		  exports: [RouterModule],
+		})
+		export class AppRoutingModule {}
+b)implementing the "CanActivateChild":
+====================================
+	Step 1: Create the `AuthGuardChild` Service
+			// auth-guard-child.service.ts
+			import { Injectable } from '@angular/core';
+			import { CanActivateChild, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
+			import { Observable } from 'rxjs';
+
+			@Injectable({
+			  providedIn: 'root'
+			})
+			export class AuthGuardChild implements CanActivateChild {
+			  constructor(private router: Router) {}
+
+			  canActivateChild(
+				childRoute: ActivatedRouteSnapshot,
+				state: RouterStateSnapshot
+			  ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+				// Put your authentication or authorization logic here for child routes
+				// For example, check if the user is logged in or has certain permissions for child routes
+				const isAuthenticated = true; // Replace this with your actual authentication logic
+
+				if (isAuthenticated) {
+				  return true;
+				} else {
+				  // If not authenticated, redirect to the login page or a custom page
+				  this.router.navigate(['/login']); // Replace 'login' with your login page route
+				  return false;
+				}
+			  }
+			}
+	Step 2: Add the `AuthGuardChild` to Routes
+			// app-routing.module.ts
+			import { NgModule } from '@angular/core';
+			import { RouterModule, Routes } from '@angular/router';
+			import { HomeComponent } from './home.component';
+			import { AboutComponent } from './about.component';
+			import { ContactComponent } from './contact.component';
+			import { NotFoundComponent } from './not-found.component';
+			import { AuthGuardChild } from './auth-guard-child.service'; // Import the AuthGuardChild
+
+			const routes: Routes = [
+			  { path: 'home', component: HomeComponent },
+			  { path: 'about', component: AboutComponent },
+			  {
+				path: 'contact',
+				component: ContactComponent
+				canActivateChild: [AuthGuardChild], // Protect child routes of 'contact' route
+				children: [
+				  // Add child routes here as needed
+				  // Example child route: { path: 'details', component: ContactDetailsComponent }
+				],
+			  },
+			  // Add other routes here as needed
+
+			  { path: '**', component: NotFoundComponent }, // No guard needed for the 404 route
+			];
+
+			@NgModule({
+			  imports: [RouterModule.forRoot(routes)],
+			  exports: [RouterModule],
+			})
+			export class AppRoutingModule {}
+			
+c)implementing the "CanDeactivate":
+===================================
+	Step 1: Create the CanDeactivateGuard Interface
+			// can-deactivate.guard.ts
+			import { Injectable } from '@angular/core';
+			import { CanDeactivate, ActivatedRouteSnapshot,RouterStateSnapshot, UrlTree } from '@angular/router';
+			import { Observable } from 'rxjs';
+			@Injectable({
+				providedIn: 'root'
+			})
+			export class MyComponentComponent implements CanDeactivate<T> {
+			canDeactivate(component: T, currentRoute: ActivatedRouteSnapshot, currentState: RouterStateSnapshot, nextState?: RouterStateSnapshot):
+																		Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree{
+				// Put your logic here to determine if the user can navigate away from the component.
+				// For example, you can show a confirmation dialog to the user and return the user's choice.
+				// Return true if the user can navigate away or false to prevent navigation.
+
+				const userChoice = confirm('Are you sure you want to leave this page?');
+
+				return userChoice; // Return true or false based on the user's choice
+			  }
+			}
+
+	Step 3: Add the CanDeactivate Guard to Routes
+			// app-routing.module.ts
+			import { NgModule } from '@angular/core';
+			import { RouterModule, Routes } from '@angular/router';
+			import { HomeComponent } from './home.component';
+			import { AboutComponent } from './about.component';
+			import { ContactComponent } from './contact.component';
+			import { NotFoundComponent } from './not-found.component';
+			import { MyComponentComponent } from './my-component.component';
+			import { CanDeactivateGuard } from './can-deactivate.guard'; // Import the CanDeactivateGuard
+
+			const routes: Routes = [
+			  { path: 'home', component: HomeComponent },
+			  { path: 'about', component: AboutComponent },
+			  { path: 'contact', component: ContactComponent, canDeactivate: [CanDeactivateGuard] },
+			  { path: 'my-component', component: MyComponentComponent, canDeactivate: [CanDeactivateGuard] },
+			  // Add other routes here as needed
+
+			  { path: '**', component: NotFoundComponent }, // No guard needed for the 404 route
+			];
+
+			@NgModule({
+			  imports: [RouterModule.forRoot(routes)],
+			  exports: [RouterModule],
+			})
+			export class AppRoutingModule {}
+d)implementing the "CanLoad":
+=============================
+The CanLoad route guard in Angular is used to control whether a feature module can be loaded lazily or not. 
+It allows you to prevent the loading of certain feature modules if specific conditions are not met, such as authentication or authorization checks.
+Step 1: Create the `CanLoadGuard` Service
+		// can-load.guard.ts
+		import { Injectable } from '@angular/core';
+		import { CanLoad, Route, UrlSegment, Router } from '@angular/router';
+		import { Observable } from 'rxjs';
+
+		@Injectable({
+		  providedIn: 'root'
+		})
+		export class CanLoadGuard implements CanLoad {
+		  constructor(private router: Router) {}
+
+		  canLoad(route: Route, segments: UrlSegment[]): Observable<boolean> | Promise<boolean> | boolean {
+			// Put your conditions for allowing the module to load here
+			// For example, check if the user is authenticated or if certain settings are enabled
+			const isAuthenticated = true; // Replace this with your actual authentication logic
+
+			if (isAuthenticated) {
+			  return true;
+			} else {
+			  // If not authenticated, redirect to the login page or a custom page
+			  this.router.navigate(['/login']); // Replace 'login' with your login page route
+			  return false;
+			}
+		  }
+		}
+
+Step 2: Add the `CanLoadGuard` to Routes
+		// app-routing.module.ts
+		import { NgModule } from '@angular/core';
+		import { RouterModule, Routes } from '@angular/router';
+		import { HomeComponent } from './home.component';
+		import { AboutComponent } from './about.component';
+		import { CanLoadGuard } from './can-load.guard'; // Import the CanLoadGuard
+
+		const routes: Routes = [
+		  { path: 'home', component: HomeComponent },
+		  { path: 'about', component: AboutComponent },
+		  {
+			path: 'lazy-feature',
+			canLoad: [CanLoadGuard], // Protect the lazy-loaded feature module
+			loadChildren: () => import('./lazy-feature/lazy-feature.module').then((m) => m.LazyFeatureModule),
+		  },
+		  // Add other routes here as needed
+
+		  { path: '**', redirectTo: '/home' }, // Redirect to home page for any other routes
+		];
+
+		@NgModule({
+		  imports: [RouterModule.forRoot(routes)],
+		  exports: [RouterModule],
+		})
+		export class AppRoutingModule {}
+
+51) Passing Static Data to the Route and also Access the static data in the typescript in angular
+	Step 1: Define Route Configuration
+			// app-routing.module.ts
+			import { NgModule } from '@angular/core';
+			import { RouterModule, Routes } from '@angular/router';
+			import { HomeComponent } from './home.component';
+			import { AboutComponent } from './about.component';
+
+			const routes: Routes = [
+			  { path: 'home', component: HomeComponent },
+			  { path: 'about', component: AboutComponent, data: { title: 'About Page', description: 'This is the About page.' } },
+			  // Add other routes here as needed
+
+			  { path: '**', redirectTo: '/home' }, // Redirect to home page for any other routes
+			];
+
+			@NgModule({
+			  imports: [RouterModule.forRoot(routes)],
+			  exports: [RouterModule],
+			})
+			export class AppRoutingModule {}
+
+	Step 2: Access Static Data in the Component
+			// about.component.ts
+			import { Component, OnInit } from '@angular/core';
+			import { ActivatedRoute } from '@angular/router';
+
+			@Component({
+			  selector: 'app-about',
+			  templateUrl: './about.component.html',
+			  styleUrls: ['./about.component.css'],
+			})
+			export class AboutComponent implements OnInit {
+			  pageTitle: string;
+			  pageDescription: string;
+
+			  constructor(private route: ActivatedRoute) {}
+
+			  ngOnInit() {
+				// Access the static data from the route
+				this.pageTitle = this.route.snapshot.data.title;
+				this.pageDescription = this.route.snapshot.data.description;
+			  }
+			}
+52)Get Dynamic Data before entering into the component using the Resolve Guard in Angular
+	Step 1: Create the `DataResolver` Service
+			// data-resolver.service.ts
+			import { Injectable } from '@angular/core';
+			import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+			import { Observable, of } from 'rxjs';
+			import { delay } from 'rxjs/operators';
+
+			@Injectable({
+			  providedIn: 'root'
+			})
+			export class DataResolver implements Resolve<any> {
+			  constructor() {}
+
+			  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any {
+				// Fetch dynamic data here (e.g., from an API)
+				// You can use route parameters or query parameters to determine the data to fetch
+				const dynamicData = { id: route.params.id, name: 'Dynamic Data' };
+
+				// Simulate asynchronous data loading (remove the delay in production)
+				return of(dynamicData).pipe(delay(1000));
+			  }
+			}
+
+	Step 2: Add the DataResolver to Routes in app-routing.module.ts
+			// app-routing.module.ts
+			import { NgModule } from '@angular/core';
+			import { RouterModule, Routes } from '@angular/router';
+			import { HomeComponent } from './home.component';
+			import { AboutComponent } from './about.component';
+			import { DataResolver } from './data-resolver.service'; // Import the DataResolver
+
+			const routes: Routes = [
+			  { path: 'home', component: HomeComponent },
+			  {
+				path: 'about/:id',
+				component: AboutComponent,
+				resolve: {
+				  dynamicData: DataResolver // Use the DataResolver to fetch dynamic data
+				}
+			  },
+			  // Add other routes here as needed
+
+			  { path: '**', redirectTo: '/home' }, // Redirect to home page for any other routes
+			];
+
+			@NgModule({
+			  imports: [RouterModule.forRoot(routes)],
+			  exports: [RouterModule],
+			})
+			export class AppRoutingModule {}
+
+	Step 3: Access Dynamic Data in the Component
+			// about.component.ts
+			import { Component, OnInit } from '@angular/core';
+			import { ActivatedRoute } from '@angular/router';
+
+			@Component({
+			  selector: 'app-about',
+			  templateUrl: './about.component.html',
+			  styleUrls: ['./about.component.css'],
+			})
+			export class AboutComponent implements OnInit {
+			  dynamicData: any;
+
+			  constructor(private route: ActivatedRoute) {}
+
+			  ngOnInit() {
+				// Access the resolved data from the route
+				this.dynamicData = this.route.snapshot.data.dynamicData;
+			  }
+			}
+53)Template Driven Forms in Angular. Get NgForm Object from the template to code in Angular.
+	Step 1:Create the Template-Driven Form in the HTML template:
+		<form #myForm="ngForm">
+		  <div class="form-group">
+			<label for="name">Name:</label>
+			<input type="text" id="name" name="name" [(ngModel)]="user.name" required>
+		  </div>
+		  <div class="form-group">
+			<label for="email">Email:</label>
+			<input type="email" id="email" name="email" [(ngModel)]="user.email" required email>
+		  </div>
+		  <button type="submit">Submit</button>
+		</form>
+	Step 2:Access NgForm in the Component Code:
+		import { Component, ViewChild } from '@angular/core';
+		import { NgForm } from '@angular/forms';
+
+		@Component({
+		  selector: 'app-your-component',
+		  templateUrl: './your-component.component.html',
+		  styleUrls: ['./your-component.component.css']
+		})
+		export class YourComponent {
+		  @ViewChild('myForm') myForm!: NgForm;
+		  user = {
+			name: '',
+			email: ''
+		  };
+		  onSubmit() {
+			if (this.myForm.valid) {
+			  // Perform form submission logic here
+			  console.log('Form is valid. Submitting...');
+			} else {
+			  // Handle form errors or display validation messages
+			  console.log('Form is invalid. Please fill all required fields.');
+			}
+		  }
+		}
+54)Explore the Form Object in the Template Driven Forms in the Angular
+Form Properties:
+	value: 		Represents the current values of all the form controls in the form. It is an object where the keys are the names of the form controls, 
+				and the values are the corresponding input values provided by the user.
+	valid: 		A boolean property indicating whether all the form controls in the form have passed validation and the form is valid.
+	invalid: 	A boolean property indicating the opposite of valid.
+	dirty: 		A boolean property indicating whether the user has interacted with any of the form controls and modified their values.
+	pristine: 	A boolean property indicating the opposite of dirty, i.e., whether the user has not interacted with any of the form controls.
+	touched: 	A boolean property indicating whether the user has focused and blurred any of the form controls.
+	untouched:  A boolean property indicating the opposite of touched, i.e., whether the user has not focused or blurred any of the form controls.
+	errors: 	An object containing any validation errors for the form controls. The keys are the names of the form controls, and the values are the corresponding validation error objects.
+	disabled: 	A boolean property indicating whether the form is disabled. If the form is disabled, its form controls cannot be edited.
+	enabled: 	A boolean property indicating the opposite of disabled.
+
+Form Methods:
+reset(): 	Resets the form to its initial state, clearing all input values and resetting the form control states.
+submit(): 	Submits the form. This method can be used to programmatically trigger form submission, 
+			but you still need to handle the form submission logic in your code.
+onSubmit(event: Event): This method is automatically invoked when the form is submitted through a submit button in the template. 
+You can bind this method to the (ngSubmit) event in the form tag to handle form submissions.
+
+Accessing the Form Object:
+To access the Form Object in the component code, you can use the ViewChild decorator to get a reference to the NgForm object. 
+As shown in the previous examples, you can use a template variable to refer to the form, and then use ViewChild to obtain a reference to the form instance.
+
+<form #myForm="ngForm">
+  <!-- Form controls and input fields here -->
+</form>
+
+import { Component, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
+
+@Component({
+  selector: 'app-your-component',
+  templateUrl: './your-component.component.html',
+  styleUrls: ['./your-component.component.css']
+})
+export class YourComponent {
+  @ViewChild('myForm') myForm!: NgForm;
+
+  // Component logic here
+}
+By accessing the Form Object through ViewChild, you can perform various actions and validations on the form programmatically in the component code.
+
+55)Validations for the Template Driven Forms. Show Validation Messages for the Form in Angular.
+	Step 1: In your HTML template (e.g., your-component.component.html), add the form controls and validation messages:
+			<form #myForm="ngForm" (ngSubmit)="onSubmit()">
+			  <div class="form-group">
+				<label for="name">Name:</label>
+				<input type="text" id="name" name="name" [(ngModel)]="user.name" required>
+				<div *ngIf="myForm.controls['name'].invalid && myForm.controls['name'].touched">
+				  <div *ngIf="myForm.controls['name'].errors?.required">Name is required.</div>
+				</div>
+			  </div>
+
+			  <div class="form-group">
+				<label for="email">Email:</label>
+				<input type="email" id="email" name="email" [(ngModel)]="user.email" required email>
+				<div *ngIf="myForm.controls['email'].invalid && myForm.controls['email'].touched">
+				  <div *ngIf="myForm.controls['email'].errors?.required">Email is required.</div>
+				  <div *ngIf="myForm.controls['email'].errors?.email">Invalid email format.</div>
+				</div>
+			  </div>
+			  <button type="submit">Submit</button>
+			</form>
+			In the above code, we use Angular directives like ngModel, required, and email to apply the necessary validations to the form controls.
+			 We use the *ngIf directive to conditionally show the validation messages based on the control's validity state and whether
+			 it has been touched by the user (touched).
+
+	Step 2: In your component code (e.g., your-component.component.ts), handle form submission and define the user object:
+			import { Component } from '@angular/core';
+			@Component({
+			  selector: 'app-your-component',
+			  templateUrl: './your-component.component.html',
+			  styleUrls: ['./your-component.component.css']
+			})
+			export class YourComponent {
+			  user = {
+				name: '',
+				email: ''
+			  };
+
+			  onSubmit() {
+				if (this.myForm.valid) {
+				  // Perform form submission logic here
+				  console.log('Form is valid. Submitting...');
+				} else {
+				  // Handle form errors or display validation messages
+				  console.log('Form is invalid. Please fill all required fields correctly.');
+				}
+			  }
+			}
+			The above component code includes the onSubmit() method, which will be called when the form is submitted. 
+			It checks the form's validity using this.myForm.valid and performs the form submission logic accordingly.
+
+56)Using ngModel for Two Way & One Way Binding to populate Data in Template Driven Forms - Angular
+Type 1: In your HTML template (e.g., your-component.component.html), 
+		use ngModel to bind form controls to component properties for Two-Way Data Binding:
+		<form #myForm="ngForm">
+		  <div class="form-group">
+			<label for="name">Name:</label>
+			<input type="text" id="name" name="name" [(ngModel)]="user.name" required>
+		  </div>
+
+		  <div class="form-group">
+			<label for="email">Email:</label>
+			<input type="email" id="email" name="email" [(ngModel)]="user.email" required email>
+		  </div>
+
+		  <button type="submit">Submit</button>
+		</form>
+Type 2: For One-Way Data Binding, you can use ngModel with only one-way binding by omitting the square brackets [] on the left side of ngModel.
+		<form #myForm="ngForm">
+		  <div class="form-group">
+			<label for="name">Name:</label>
+			<input type="text" id="name" name="name" [ngModel]="user.name">
+		  </div>
+
+		  <div class="form-group">
+			<label for="email">Email:</label>
+			<input type="email" id="email" name="email" [ngModel]="user.email">
+		  </div>
+
+		  <button type="submit">Submit</button>
+		</form>
+ts file: In your component code (e.g., your-component.component.ts), define the user object and populate data:
+		import { Component } from '@angular/core';
+		@Component({
+		  selector: 'app-your-component',
+		  templateUrl: './your-component.component.html',
+		  styleUrls: ['./your-component.component.css']
+		})
+		export class YourComponent {
+		  user = {
+			name: 'John Doe',
+			email: 'johndoe@example.com'
+		  };
+
+		  onSubmit() {
+			// Form submission logic here
+			console.log('Submitted user data:', this.user);
+		  }
+		}
+
+57) NgModelGroup - Grouping The Form Controls in Template Driven Forms using ngModelGroup in angular
+	Step 1: In your HTML template (e.g., your-component.component.html), use ngModelGroup to group related form controls:
+			<form #myForm="ngForm" (ngSubmit)="onSubmit()">
+			  <div class="form-group" ngModelGroup="address">
+				<label for="street">Street:</label>
+				<input type="text" id="street" name="street" [(ngModel)]="user.address.street" required>
+			  </div>
+
+			  <div class="form-group" ngModelGroup="address">
+				<label for="city">City:</label>
+				<input type="text" id="city" name="city" [(ngModel)]="user.address.city" required>
+			  </div>
+
+			  <div class="form-group" ngModelGroup="address">
+				<label for="postalCode">Postal Code:</label>
+				<input type="text" id="postalCode" name="postalCode" [(ngModel)]="user.address.postalCode" required>
+			  </div>
+
+			  <button type="submit">Submit</button>
+			</form>
+	Step 2: In your component code (e.g., your-component.component.ts), define the user object with the nested address property:
+			import { Component } from '@angular/core';
+			@Component({
+			  selector: 'app-your-component',
+			  templateUrl: './your-component.component.html',
+			  styleUrls: ['./your-component.component.css']
+			})
+			export class YourComponent {
+			  user = {
+				name: '',
+				email: '',
+				address: {
+				  street: '',
+				  city: '',
+				  postalCode: ''
+				}
+			  };
+
+			  onSubmit() {
+				// Form submission logic here
+				console.log('Submitted user data:', this.user);
+			  }
+			}
+58)Set Value and Patch Value for populating Form Elements in the Template Driven Forms in Angular.
+	Set Value using setValue:
+		The setValue method is used to set the value of all form controls in the form. It requires passing an object representing the values of all the form controls. 
+		Note that you must provide values for all form controls; otherwise, it will throw an error if any control is missing.
+		<form #myForm="ngForm">
+		  <div class="form-group">
+			<label for="name">Name:</label>
+			<input type="text" id="name" name="name" [(ngModel)]="user.name" required>
+		  </div>
+
+		  <div class="form-group">
+			<label for="email">Email:</label>
+			<input type="email" id="email" name="email" [(ngModel)]="user.email" required email>
+		  </div>
+
+		  <button type="button" (click)="populateForm()">Populate Form</button>
+		</form>
+	In your component code (your-component.component.ts), you can use the setValue method to populate the form with data:
+		import { Component, ViewChild } from '@angular/core';
+		import { NgForm } from '@angular/forms';
+
+		@Component({
+		  selector: 'app-your-component',
+		  templateUrl: './your-component.component.html',
+		  styleUrls: ['./your-component.component.css']
+		})
+		export class YourComponent {
+		  @ViewChild('myForm') myForm!: NgForm;
+
+		  user = {
+			name: '',
+			email: ''
+		  };
+
+		  populateForm() {
+			const userData = {
+			  name: 'John Doe',
+			  email: 'johndoe@example.com'
+			};
+
+			// Set the entire form values at once
+			this.myForm.setValue(userData);
+		  }
+
+		  onSubmit() {
+			// Form submission logic here
+			console.log('Submitted user data:', this.user);
+		  }
+		}
+	Patch Value using patchValue:
+		The patchValue method is used to set the value of specific form controls selectively. Unlike setValue, patchValue doesn't require providing values for all form controls. 
+		It allows you to set only the values you want to update without affecting other form controls.
+		<form #myForm="ngForm">
+		  <div class="form-group">
+			<label for="name">Name:</label>
+			<input type="text" id="name" name="name" [(ngModel)]="user.name" required>
+		  </div>
+
+		  <div class="form-group">
+			<label for="email">Email:</label>
+			<input type="email" id="email" name="email" [(ngModel)]="user.email" required email>
+		  </div>
+
+		  <button type="button" (click)="populateForm()">Populate Form</button>
+		</form>
+	In your component code (your-component.component.ts), you can use the patchValue method to populate specific form fields with data:
+		import { Component, ViewChild } from '@angular/core';
+		import { NgForm } from '@angular/forms';
+
+		@Component({
+		  selector: 'app-your-component',
+		  templateUrl: './your-component.component.html',
+		  styleUrls: ['./your-component.component.css']
+		})
+		export class YourComponent {
+		  @ViewChild('myForm') myForm!: NgForm;
+
+		  user = {
+			name: '',
+			email: ''
+		  };
+
+		  populateForm() {
+			const userData = {
+			  name: 'John Doe',
+			  email: 'johndoe@example.com'
+			};
+
+			// Patch specific form control values
+			this.myForm.form.patchValue(userData);
+		  }
+
+		  onSubmit() {
+			// Form submission logic here
+			console.log('Submitted user data:', this.user);
+		  }
+		}
+		With setValue and patchValue, you can easily populate the Template-driven form with data from the component,
+		either updating all form controls at once or selectively updating specific form controls as needed.
+59)Get and Reset the Form Data controls in the Template Driven Forms in the Angular
+	##your-component.component.ts
+		<form #myForm="ngForm">
+		  <div class="form-group">
+			<label for="name">Name:</label>
+			<input type="text" id="name" name="name" [(ngModel)]="user.name" required>
+		  </div>
+
+		  <div class="form-group">
+			<label for="email">Email:</label>
+			<input type="email" id="email" name="email" [(ngModel)]="user.email" required email>
+		  </div>
+
+		  <button type="button" (click)="getFormData()">Get Form Data</button>
+		  <!-- Form controls here -->
+		  <button type="button" (click)="resetForm()">Reset Form</button>
+		</form>
+	##your-component.component.ts
+		import { Component, ViewChild } from '@angular/core';
+		import { NgForm } from '@angular/forms';
+
+		@Component({
+		  selector: 'app-your-component',
+		  templateUrl: './your-component.component.html',
+		  styleUrls: ['./your-component.component.css']
+		})
+		export class YourComponent {
+		  @ViewChild('myForm') myForm!: NgForm;
+
+		  user = {
+			name: '',
+			email: ''
+		  };
+
+		  getFormData() {
+			// Access the form data controls using the `value` property
+			const formData = this.myForm.value;
+			console.log('Form Data:', formData);
+		  }
+
+		  onSubmit() {
+			// Form submission logic here
+			console.log('Submitted user data:', this.user);
+		  }
+		  
+		  resetForm() {
+			// Reset the form data controls to their initial state
+			this.myForm.reset();
+		  }
+		}
+60)Introduction to Reactive Forms Approach. Create FormGroup and FormControl with code in Angular.
+	Step 1: Import ReactiveFormsModule:
+			First, ensure you import the ReactiveFormsModule in the module where you plan to use Reactive Forms. Usually, this is the app.module.ts file.
+			import { ReactiveFormsModule } from '@angular/forms';
+			@NgModule({
+			  imports: [
+				ReactiveFormsModule
+			  ],
+			  // Other module configurations
+			})
+			export class AppModule { }
+	Step 2: Create FormGroup and FormControl in the Component:
+			In your component code (e.g., your-component.component.ts), import the necessary classes from @angular/forms and create 
+			the FormGroup and FormControl instances.
+			import { Component } from '@angular/core';
+			import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+
+			@Component({
+			  selector: 'app-your-component',
+			  templateUrl: './your-component.component.html',
+			  styleUrls: ['./your-component.component.css']
+			})
+			export class YourComponent {
+			  myForm: FormGroup;
+
+			  constructor(private formBuilder: FormBuilder) {
+				// Create the FormGroup and define its initial structure and validators
+				this.myForm = this.formBuilder.group({
+				  name: ['', Validators.required],
+				  email: ['', [Validators.required, Validators.email]],
+				  // Other form controls and their initial values and validators can be defined here
+				});
+			  }
+
+			  onSubmit() {
+				if (this.myForm.valid) {
+				  // Perform form submission logic here
+				  console.log('Form is valid. Submitting...');
+				} else {
+				  // Handle form errors or display validation messages
+				  console.log('Form is invalid. Please fill all required fields correctly.');
+				}
+			  }
+			}
+	Step 3: Bind FormGroup to the Template:
+			In your component's HTML template (e.g., your-component.component.html), 
+			bind the FormGroup to the form tag using the formGroup directive, 
+			and bind the FormControl instances to the form controls using the formControlName directive.
+			<form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+			  <div class="form-group">
+				<label for="name">Name:</label>
+				<input type="text" id="name" formControlName="name">
+			  </div>
+
+			  <div class="form-group">
+				<label for="email">Email:</label>
+				<input type="email" id="email" formControlName="email">
+			  </div>
+
+			  <button type="submit">Submit</button>
+			</form>
+61) Attach the HTML File using the FormGroup with FormControlName using Reactive Forms in Angular.
+	Step 1: Create the HTML template for the your-component component (e.g., your-component.component.html):
+			<form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+			  <div class="form-group">
+				<label for="name">Name:</label>
+				<input type="text" id="name" formControlName="name">
+			  </div>
+
+			  <div class="form-group">
+				<label for="email">Email:</label>
+				<input type="email" id="email" formControlName="email">
+			  </div>
+
+			  <button type="submit">Submit</button>
+			</form>
+	Step 2: Update the component class code (e.g., your-component.component.ts) with the necessary imports and the FormGroup and FormControl creation:
+			import { Component } from '@angular/core';
+			import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+			@Component({
+			  selector: 'app-your-component',
+			  templateUrl: './your-component.component.html',
+			  styleUrls: ['./your-component.component.css']
+			})
+			export class YourComponent {
+			  myForm: FormGroup;
+
+			  constructor(private formBuilder: FormBuilder) {
+				// Create the FormGroup and define its initial structure and validators
+				this.myForm = this.formBuilder.group({
+				  name: ['', Validators.required],
+				  email: ['', [Validators.required, Validators.email]],
+				  // Other form controls and their initial values and validators can be defined here
+				});
+			  }
+
+			  onSubmit() {
+				if (this.myForm.valid) {
+				  // Perform form submission logic here
+				  console.log('Form is valid. Submitting...');
+				} else {
+				  // Handle form errors or display validation messages
+				  console.log('Form is invalid. Please fill all required fields correctly.');
+				}
+			  }
+			}
+62) Apply Validations for Reactive Forms and also show messages in the HTML Template - Angular.
+	Step 1: Create the HTML template for the your-component component (e.g., your-component.component.html):
+			<form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+			  <div class="form-group">
+				<label for="name">Name:</label>
+				<input type="text" id="name" formControlName="name">
+				<div *ngIf="myForm.get('name').invalid && myForm.get('name').touched">
+				  <div *ngIf="myForm.get('name').hasError('required')">Name is required.</div>
+				</div>
+			  </div>
+
+			  <div class="form-group">
+				<label for="email">Email:</label>
+				<input type="email" id="email" formControlName="email">
+				<div *ngIf="myForm.get('email').invalid && myForm.get('email').touched">
+				  <div *ngIf="myForm.get('email').hasError('required')">Email is required.</div>
+				  <div *ngIf="myForm.get('email').hasError('email')">Invalid email format.</div>
+				</div>
+			  </div>
+
+			  <button type="submit">Submit</button>
+			</form>
+	Step 2: Update the component class code (e.g., your-component.component.ts) with the necessary imports and the FormGroup and FormControl creation:
+			import { Component } from '@angular/core';
+			import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+			@Component({
+			  selector: 'app-your-component',
+			  templateUrl: './your-component.component.html',
+			  styleUrls: ['./your-component.component.css']
+			})
+			export class YourComponent {
+			  myForm: FormGroup;
+
+			  constructor(private formBuilder: FormBuilder) {
+				// Create the FormGroup and define its initial structure and validators
+				this.myForm = this.formBuilder.group({
+				  name: ['', Validators.required],
+				  email: ['', [Validators.required, Validators.email]],
+				  // Other form controls and their initial values and validators can be defined here
+				});
+			  }
+
+			  onSubmit() {
+				if (this.myForm.valid) {
+				  // Perform form submission logic here
+				  console.log('Form is valid. Submitting...');
+				} else {
+				  // Handle form errors or display validation messages
+				  console.log('Form is invalid. Please fill all required fields correctly.');
+				}
+			  }
+			}
+63) Grouping the Controls in the Reactive Forms using FormGroupName in FormGroup - Angular.
+	Step 1: Create the HTML template for the your-component component (e.g., your-component.component.html):
+			<form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+			  <div formGroupName="personalInfo">
+				<div class="form-group">
+				  <label for="name">Name:</label>
+				  <input type="text" id="name" formControlName="name">
+				</div>
+				<div class="form-group">
+				  <label for="email">Email:</label>
+				  <input type="email" id="email" formControlName="email">
+				</div>
+			  </div>
+			  <div formGroupName="address">
+				<div class="form-group">
+				  <label for="street">Street:</label>
+				  <input type="text" id="street" formControlName="street">
+				</div>
+				<div class="form-group">
+				  <label for="city">City:</label>
+				  <input type="text" id="city" formControlName="city">
+				</div>
+				<div class="form-group">
+				  <label for="postalCode">Postal Code:</label>
+				  <input type="text" id="postalCode" formControlName="postalCode">
+				</div>
+			  </div>
+			  <button type="submit">Submit</button>
+			</form>
+	Step 2: Update the component class code (e.g., your-component.component.ts) with the necessary imports and the creation of the FormGroup:
+			import { Component } from '@angular/core';
+			import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+			@Component({
+			  selector: 'app-your-component',
+			  templateUrl: './your-component.component.html',
+			  styleUrls: ['./your-component.component.css']
+			})
+			export class YourComponent {
+			  myForm: FormGroup;
+
+			  constructor(private formBuilder: FormBuilder) {
+				// Create the FormGroup and define its initial structure and validators
+				this.myForm = this.formBuilder.group({
+				  personalInfo: this.formBuilder.group({
+					name: ['', Validators.required],
+					email: ['', [Validators.required, Validators.email]]
+				  }),
+				  address: this.formBuilder.group({
+					street: ['', Validators.required],
+					city: ['', Validators.required],
+					postalCode: ['', Validators.required]
+				  })
+				});
+			  }
+
+			  onSubmit() {
+				if (this.myForm.valid) {
+				  // Perform form submission logic here
+				  console.log('Form is valid. Submitting...');
+				} else {
+				  // Handle form errors or display validation messages
+				  console.log('Form is invalid. Please fill all required fields correctly.');
+				}
+			  }
+			}
+64) Dynamically Add Form Controls with FormArray FormArrayName in the Reactive Forms - Angular.
+	Step 1: Create the HTML template for the your-component component (e.g., your-component.component.html):
+			<form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+			  <div formArrayName="emails">
+				<div *ngFor="let email of emails.controls; let i = index">
+				  <input type="email" [formControl]="email" placeholder="Email {{ i + 1 }}">
+				  <button type="button" (click)="removeEmail(i)">Remove</button>
+				</div>
+			  </div>
+
+			  <button type="button" (click)="addEmail()">Add Email</button>
+			  <button type="submit">Submit</button>
+			</form>
+	Step 2: Update the component class code (e.g., your-component.component.ts) with the necessary imports and the creation of the FormArray:
+			import { Component } from '@angular/core';
+			import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
+			@Component({
+			  selector: 'app-your-component',
+			  templateUrl: './your-component.component.html',
+			  styleUrls: ['./your-component.component.css']
+			})
+			export class YourComponent {
+			  myForm: FormGroup;
+			  constructor(private formBuilder: FormBuilder) {
+				// Create the FormArray for emails and define its initial structure and validators
+				this.myForm = this.formBuilder.group({
+				  emails: this.formBuilder.array([])
+				});
+			  }
+			  // Convenience getter to access the emails FormArray
+			  get emails(): FormArray {
+				return this.myForm.get('emails') as FormArray;
+			  }
+			  addEmail() {
+				// Add a new FormControl to the emails FormArray
+				this.emails.push(this.formBuilder.control('', Validators.email));
+			  }
+			  removeEmail(index: number) {
+				// Remove the FormControl at the specified index from the emails FormArray
+				this.emails.removeAt(index);
+			  }
+			  onSubmit() {
+				if (this.myForm.valid) {
+				  // Perform form submission logic here
+				  console.log('Form is valid. Submitting...');
+				} else {
+				  // Handle form errors or display validation messages
+				  console.log('Form is invalid. Please fill all required fields correctly.');
+				}
+			  }
+			}
+65) Create Custom Validations for the reactive Forms in the Angular.
+Step 1: Update the component class code (e.g., your-component.component.ts) with the custom validator:
+		import { Component } from '@angular/core';
+		import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
+
+		@Component({
+		  selector: 'app-your-component',
+		  templateUrl: './your-component.component.html',
+		  styleUrls: ['./your-component.component.css']
+		})
+		export class YourComponent {
+		  myForm: FormGroup;
+
+		  constructor(private formBuilder: FormBuilder) {
+			// Create the FormGroup and define its initial structure and validators
+			this.myForm = this.formBuilder.group({
+			  password: ['', [Validators.required, this.customPasswordValidator]]
+			});
+		  }
+
+		  // Custom validator function
+		  customPasswordValidator(control: AbstractControl): ValidationErrors | null {
+			const value: string = control.value || '';
+			const hasUppercase = /[A-Z]/.test(value);
+			const hasLowercase = /[a-z]/.test(value);
+			
+			if (!hasUppercase || !hasLowercase) {
+			  // Return a validation error if the password does not contain both uppercase and lowercase letters
+			  return { customPassword: true };
+			}
+
+			// Return null if the validation passes
+			return null;
+		  }
+
+		  onSubmit() {
+			if (this.myForm.valid) {
+			  // Perform form submission logic here
+			  console.log('Form is valid. Submitting...');
+			} else {
+			  // Handle form errors or display validation messages
+			  console.log('Form is invalid. Please fill all required fields correctly.');
+			}
+		  }
+		}
+Step 2: Update the HTML template (e.g., your-component.component.html) to display validation messages for the custom validator:
+		<form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+		  <div class="form-group">
+			<label for="password">Password:</label>
+			<input type="password" id="password" formControlName="password">
+			<div *ngIf="myForm.get('password').hasError('required')">Password is required.</div>
+			<div *ngIf="myForm.get('password').hasError('customPassword')">Password must contain both uppercase and lowercase letters.</div>
+		  </div>
+
+		  <button type="submit">Submit</button>
+		</form>
+66) Create a Custom Asynchronous Validator in the Reactive Forms - Angular
+	Step 1: Update the component class code (e.g., your-component.component.ts) with the custom asynchronous validator:
+			import { Component } from '@angular/core';
+			import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors, AsyncValidatorFn, FormControl } from '@angular/forms';
+			import { Observable } from 'rxjs';
+			import { map } from 'rxjs/operators';
+
+			@Component({
+			  selector: 'app-your-component',
+			  templateUrl: './your-component.component.html',
+			  styleUrls: ['./your-component.component.css']
+			})
+			export class YourComponent {
+			  myForm: FormGroup;
+
+			  constructor(private formBuilder: FormBuilder) {
+				// Create the FormGroup and define its initial structure and validators
+				this.myForm = this.formBuilder.group({
+				  username: ['', [Validators.required], [this.customAsyncValidator()]]
+				});
+			  }
+
+			  // Custom asynchronous validator function
+			  customAsyncValidator(): AsyncValidatorFn {
+				return (control: FormControl): Observable<ValidationErrors | null> => {
+				  // Simulate an asynchronous HTTP request to check if the username is already taken
+				  return this.checkUsernameAvailability(control.value).pipe(
+					map(isTaken => (isTaken ? { usernameTaken: true } : null))
+				  );
+				};
+			  }
+
+			  // Simulate an asynchronous HTTP request to check username availability
+			  // Replace this with your actual HTTP request to the server
+			  checkUsernameAvailability(username: string): Observable<boolean> {
+				// Simulate the response from the server
+				return new Observable<boolean>((observer) => {
+				  setTimeout(() => {
+					// In this example, we assume the username 'admin' is already taken
+					const isTaken = username === 'admin';
+					observer.next(isTaken);
+					observer.complete();
+				  }, 1000); // Simulating a 1-second delay for the asynchronous request
+				});
+			  }
+
+			  onSubmit() {
+				if (this.myForm.valid) {
+				  // Perform form submission logic here
+				  console.log('Form is valid. Submitting...');
+				} else {
+				  // Handle form errors or display validation messages
+				  console.log('Form is invalid. Please fill all required fields correctly.');
+				}
+			  }
+			}
+	Step 2: Update the HTML template (e.g., your-component.component.html) to display validation messages for the custom asynchronous validator:
+			<form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+			  <div class="form-group">
+				<label for="username">Username:</label>
+				<input type="text" id="username" formControlName="username">
+				<div *ngIf="myForm.get('username').hasError('required')">Username is required.</div>
+				<div *ngIf="myForm.get('username').hasError('usernameTaken')">Username is already taken.</div>
+			  </div>
+			  <button type="submit">Submit</button>
+			</form>
+
+67) Explore StatusChanges, ValueChanges, SetValue, PatchValue, and reset in Reactive Forms - Angular
+	StatusChanges:
+		this.myForm.get('username').statusChanges.subscribe((status) => {
+		  console.log('Validation status changed:', status); // e.g., 'VALID', 'INVALID', 'PENDING', 'DISABLED'
+		});
+	ValueChanges:
+		this.myForm.get('username').valueChanges.subscribe((value) => {
+		  console.log('Value changed:', value);
+		});
+	SetValue:
+		this.myForm.get('username').setValue('JohnDoe');
+	PatchValue:
+		this.myForm.get('address').patchValue({ city: 'New York' });
+	Reset:
+		this.myForm.reset();
+
+	full example demonstrating the usage of these properties and methods:
+		import { Component } from '@angular/core';
+		import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+		@Component({
+		  selector: 'app-your-component',
+		  templateUrl: './your-component.component.html',
+		  styleUrls: ['./your-component.component.css']
+		})
+		export class YourComponent {
+		  myForm: FormGroup;
+		  constructor(private formBuilder: FormBuilder) {
+			// Create the FormGroup and define its initial structure and validators
+			this.myForm = this.formBuilder.group({
+			  username: ['', Validators.required],
+			  email: ['', [Validators.required, Validators.email]]
+			});
+
+			// Subscribe to statusChanges and valueChanges
+			this.myForm.get('username').statusChanges.subscribe((status) => {
+			  console.log('Validation status changed:', status);
+			});
+
+			this.myForm.get('email').valueChanges.subscribe((value) => {
+			  console.log('Value changed:', value);
+			});
+		  }
+
+		  onSubmit() {
+			if (this.myForm.valid) {
+			  // Perform form submission logic here
+			  console.log('Form is valid. Submitting...');
+			  this.myForm.reset(); // Reset the form after submission
+			} else {
+			  // Handle form errors or display validation messages
+			  console.log('Form is invalid. Please fill all required fields correctly.');
+			}
+		  }
+		}
+68) Pipes in Angular. Chaining Multiple Pipes, parameterized Pipes in the Angular.
+	Step 1:	Chaining Multiple Pipes:
+			<!-- Chaining multiple built-in pipes -->
+			{{ value | uppercase | date:'yyyy-MM-dd' }}
+	Step 2: Parameterized Pipes:
+			<!-- Using parameterized built-in pipe -->
+			{{ value | slice:1:3 }}
+	Step 3: Creating Custom Pipes:
+			import { Pipe, PipeTransform } from '@angular/core';
+			@Pipe({ name: 'addExclamation' })
+			export class AddExclamationPipe implements PipeTransform {
+			  transform(value: string): string {
+				return value + '!';
+			  }
+			}
+	Step 4: To use the custom pipe, you must declare it in the @NgModule metadata's declarations array:
+			import { NgModule } from '@angular/core';
+			import { BrowserModule } from '@angular/platform-browser';
+
+			import { AppComponent } from './app.component';
+			import { AddExclamationPipe } from './add-exclamation.pipe';
+
+			@NgModule({
+			  declarations: [
+				AppComponent,
+				AddExclamationPipe // Declare the custom pipe here
+			  ],
+			  imports: [
+				BrowserModule
+			  ],
+			  bootstrap: [AppComponent]
+			})
+			export class AppModule { }
+	Step 5: After declaring the custom pipe, you can use it in your templates:
+			<!-- Using the custom pipe -->
+			{{ 'Hello' | addExclamation }} <!-- Output: 'Hello!' -->
+69) Create a custom Pipe and pass parameters to the Pipe in Angular using Transform method - Angular
+	Step 1: Create the custom pipe file (multiplier.pipe.ts):
+			import { Pipe, PipeTransform } from '@angular/core';
+			@Pipe({ name: 'multiplier' })
+			export class MultiplierPipe implements PipeTransform {
+			  transform(value: number, multiplier: number): number {
+				if (isNaN(value)) return value; // Return the original value if it's not a number
+				return value * multiplier;
+			  }
+			}
+
+	Step 2: Declare the custom pipe in the @NgModule metadata's declarations array in your app module (app.module.ts):
+			import { NgModule } from '@angular/core';
+			import { BrowserModule } from '@angular/platform-browser';
+			import { AppComponent } from './app.component';
+			import { MultiplierPipe } from './multiplier.pipe';
+
+			@NgModule({
+			  declarations: [
+				AppComponent,
+				MultiplierPipe // Declare the custom pipe here
+			  ],
+			  imports: [
+				BrowserModule
+			  ],
+			  bootstrap: [AppComponent]
+			})
+			export class AppModule { }
+	Step 3: Use the custom pipe in your template (app.component.html):
+			<h1>Custom Pipe Example</h1>
+			<p>Result of 5 multiplied by 2: {{ 5 | multiplier: 2 }}</p>
+			<p>Result of 10 multiplied by 3: {{ 10 | multiplier: 3 }}</p>
+			<p>Result of 'hello' multiplied by 4: {{ 'hello' | multiplier: 4 }}</p>
+
+	Output in the template:
+			Result of 5 multiplied by 2: 10
+			Result of 10 multiplied by 3: 30
+			Result of 'hello' multiplied by 4: hello
+70) Creating Filter Pipe in the Angular. Filter the list of data with search string in Angular.
+	Step 1: Create the custom filter pipe file (filter.pipe.ts):
+			import { Pipe, PipeTransform } from '@angular/core';
+
+			@Pipe({ name: 'filter' })
+			export class FilterPipe implements PipeTransform {
+			  transform(items: any[], searchText: string): any[] {
+				if (!items || !searchText) {
+				  return items; // If there are no items or no search text, return the original array
+				}
+
+				searchText = searchText.toLowerCase();
+
+				return items.filter(item => {
+				  // Return items that include the search text in any of their properties
+				  for (const property in item) {
+					if (item.hasOwnProperty(property) && item[property].toString().toLowerCase().includes(searchText)) {
+					  return true;
+					}
+				  }
+				  return false;
+				});
+			  }
+			}
+	Step 2: Declare the custom pipe in the @NgModule metadata's declarations array in your app module (app.module.ts):
+			import { NgModule } from '@angular/core';
+			import { BrowserModule } from '@angular/platform-browser';
+
+			import { AppComponent } from './app.component';
+			import { FilterPipe } from './filter.pipe';
+
+			@NgModule({
+			  declarations: [
+				AppComponent,
+				FilterPipe // Declare the custom pipe here
+			  ],
+			  imports: [
+				BrowserModule
+			  ],
+			  bootstrap: [AppComponent]
+			})
+			export class AppModule { }
+	Step 3: Use the custom filter pipe in your template (app.component.html):
+			<h1>Filter Pipe Example</h1>
+
+			<input type="text" [(ngModel)]="searchText" placeholder="Search...">
+			<ul>
+			  <li *ngFor="let item of data | filter: searchText">
+				{{ item.name }} - {{ item.description }}
+			  </li>
+			</ul>
+	Step 4: Make sure to have an array of data (data) in your component class to be filtered, like this:
+			import { Component } from '@angular/core';
+			@Component({
+			  selector: 'app-your-component',
+			  templateUrl: './app.component.html',
+			  styleUrls: ['./app.component.css']
+			})
+			export class YourComponent {
+			  searchText: string = '';
+			  
+			  data = [
+				{ name: 'Apple', description: 'A delicious fruit' },
+				{ name: 'Banana', description: 'A yellow fruit' },
+				{ name: 'Orange', description: 'A citrus fruit' },
+				// Add more items as needed
+			  ];
+			}
+71) Pure and Impure Pipes. Difference between the pure pipe and impure pipe in the Angular.
+	Pure Pipes:
+		1.Pure pipes are designed to be "pure" functions, which means they only depend on their input parameters and have no side effects.
+		2.Pure pipes are highly efficient because they are "immutable" and only recalculate their output when the input values change.
+		3.Angular automatically marks a pipe as pure unless it detects any stateful operation within the pipe, such as modifying the 
+		internal state of the pipe or making calls to external services.
+		4.Pure pipes are suitable for scenarios where the pipe output remains the same if the input doesn't change, and you want to minimize
+		the number of recalculations to improve performance.
+		5.To explicitly declare a pipe as pure, you can set the pure property of the @Pipe decorator to true.
+	Example of a pure pipe:
+		@Pipe({
+		  name: 'purePipe',
+		  pure: true
+		})
+		export class PurePipe implements PipeTransform {
+		  transform(value: any): any {
+			// Perform transformation based on the input value
+			return transformedValue;
+		  }
+		}
+	Impure Pipes:
+	1.Impure pipes, on the other hand, are pipes that have side effects or depend on changing data outside the input parameters.
+	2.Impure pipes recalculate their output on each change detection cycle, even if the input values have not changed. 
+		This can lead to decreased performance, especially when working with large datasets or frequent updates.
+	3.Impure pipes should be used with caution, as they can cause unnecessary recalculations and affect application performance.
+	4.To declare a pipe as impure, you can either omit the pure property or explicitly set it to false. By default, 
+		Angular considers a pipe as impure if it doesn't explicitly set the pure property to true.
+	Example of an impure pipe:
+		@Pipe({
+		  name: 'impurePipe',
+		  pure: false
+		})
+		export class ImpurePipe implements PipeTransform {
+		  transform(value: any): any {
+			// Perform transformation based on the input value and/or external data
+			return transformedValue;
+		  }
+		}
+72)Understanding the async (Asynchronous) Pipe. How to use Async Pipe in the Angular.
+	Step 1: Create a component with an asynchronous data source (Observable or Promise).
+			import { Component, OnInit } from '@angular/core';
+			import { Observable, of } from 'rxjs';
+
+			@Component({
+			  selector: 'app-your-component',
+			  template: `
+				<h1>AsyncPipe Example</h1>
+				<p>Current Time: {{ currentTime$ | async }}</p>
+			  `,
+			})
+			export class YourComponent implements OnInit {
+			  currentTime$: Observable<Date>;
+
+			  ngOnInit() {
+				// Simulating an asynchronous data source using an Observable
+				this.currentTime$ = this.getCurrentTime();
+			  }
+
+			  getCurrentTime(): Observable<Date> {
+				return new Observable((observer) => {
+				  setInterval(() => {
+					observer.next(new Date());
+				  }, 1000); // Update the time every second
+				});
+			  }
+			}
+
+	Step 2: In the template, use the AsyncPipe to handle the asynchronous data.
+			<p>Current Time: {{ currentTime$ | async }}</p>
+			
+73) Introduction to Http Request. Make a Http Post Request Call through HttpClientModule - Angular.
+	Step 1: Import the HttpClientModule in your app module (app.module.ts):
+			import { NgModule } from '@angular/core';
+			import { BrowserModule } from '@angular/platform-browser';
+			import { HttpClientModule } from '@angular/common/http'; // Import HttpClientModule
+
+			import { AppComponent } from './app.component';
+
+			@NgModule({
+			  declarations: [
+				AppComponent
+			  ],
+			  imports: [
+				BrowserModule,
+				HttpClientModule // Add HttpClientModule to the imports array
+			  ],
+			  bootstrap: [AppComponent]
+			})
+			export class AppModule { }
+	Step 2: Create a service to encapsulate the HTTP request logic (optional but recommended for good code organization):
+			import { Injectable } from '@angular/core';
+			import { HttpClient } from '@angular/common/http';
+			@Injectable({
+			  providedIn: 'root'
+			})
+			export class ApiService {
+			  private apiUrl = 'https://api.example.com'; // Replace this with your API endpoint URL
+
+			  constructor(private http: HttpClient) { }
+
+			  // Define a method to make the POST request
+			  postData(data: any) {
+				return this.http.post<any>(`${this.apiUrl}/endpoint`, data);
+			  }
+			}
+	Step 3: Use the service in your component to make the HTTP POST request:
+			import { Component } from '@angular/core';
+			import { ApiService } from './api.service';
+			@Component({
+			  selector: 'app-your-component',
+			  template: `
+				<button (click)="sendData()">Send Data</button>
+			  `,
+			})
+			export class YourComponent {
+			  constructor(private apiService: ApiService) { }
+
+			  sendData() {
+				const dataToSend = { name: 'John', email: 'john@example.com' };
+
+				this.apiService.postData(dataToSend).subscribe(
+				  response => {
+					console.log('POST Response:', response);
+				  },
+				  error => {
+					console.error('Error:', error);
+				  }
+				);
+			  }
+			}
+74) Make Http Get Request and use RxJs Operators to transform the response in the Angular.
+Step 1: Import the required modules and services in your component:
+		import { Component, OnInit } from '@angular/core';
+		import { HttpClient } from '@angular/common/http';
+		import { map } from 'rxjs/operators';
+
+Step 2: Create a component and inject the HttpClient service in the constructor:
+		@Component({
+		  selector: 'app-your-component',
+		  template: `
+			<h1>HTTP GET Request with RxJS Operators</h1>
+			<ul>
+			  <li *ngFor="let user of users">{{ user.name }}</li>
+			</ul>
+		  `,
+		})
+		export class YourComponent implements OnInit {
+		  users: any[] = [];
+
+		  constructor(private http: HttpClient) { }
+
+		  ngOnInit() {
+			this.getUsers();
+		  }
+
+		  getUsers() {
+			const apiUrl = 'https://jsonplaceholder.typicode.com/users';
+
+			// Make the HTTP GET request and use RxJS operators to transform the response
+			this.http.get<any[]>(apiUrl).pipe(
+			  map(users => users.map(user => ({ name: user.name, email: user.email })))
+			).subscribe(
+			  transformedUsers => {
+				this.users = transformedUsers;
+			  },
+			  error => {
+				console.error('Error:', error);
+			  }
+			);
+		  }
+		}
+75)Define the Types of HttpClient Request Data using the interface and Generic Type in the Angular.
+	GET Request:
+		GET requests usually do not include a request body, as they are used to retrieve data from the server. 
+		Hence, you do not need to specify any data for a GET request.
+		
+		import { HttpClient } from '@angular/common/http';
+		constructor(private http: HttpClient) {}
+		// GET request without any request data
+		getUsers() {
+		  return this.http.get<User[]>('https://api.example.com/users');
+		}
+	POST Request:
+		POST requests are used to send data to the server, typically for creating new resources on the server. You can specify the data 
+		to be sent in the request body using the generic type.
+
+		import { HttpClient } from '@angular/common/http';
+		constructor(private http: HttpClient) {}
+		// POST request with request data
+		createUser(user: User) {
+		  return this.http.post<User>('https://api.example.com/users', user);
+		}
+	PUT Request:
+		PUT requests are used to update existing resources on the server. Like POST requests, you can specify the data to be sent in the 
+		request body using the generic type.
+		
+		import { HttpClient } from '@angular/common/http';
+		constructor(private http: HttpClient) {}
+		// PUT request with request data
+		updateUser(user: User) {
+		  return this.http.put<User>('https://api.example.com/users/' + user.id, user);
+		}
+	DELETE Request:
+		DELETE requests are used to remove resources from the server. They may or may not include a request body. 
+		Usually, the DELETE request data is not common, but you can still specify it using the generic type if needed.
+		
+		import { HttpClient } from '@angular/common/http';
+		constructor(private http: HttpClient) {}
+		// DELETE request with request data (not common)
+		deleteUser(userId: number) {
+		  return this.http.delete<User>('https://api.example.com/users/' + userId);
+		}
+76) Using Services for Http request with HttpClient. Communicate Services and Components in Angular.
+	Step 1: Implement the Service:
+	In the data.service.ts file, you can define methods that make HTTP requests using the HttpClient. 
+	For example, you can create methods to perform GET, POST, PUT, or DELETE requests.
+	import { Injectable } from '@angular/core';
+	import { HttpClient } from '@angular/common/http';
+	import { Observable } from 'rxjs';
+	import { User } from './user.interface'; // Replace with your custom interface representing user data
+
+	@Injectable({
+	  providedIn: 'root'
+	})
+	export class DataService {
+	  private apiUrl = 'https://api.example.com/users';
+
+	  constructor(private http: HttpClient) {}
+
+	  getUsers(): Observable<User[]> {
+		return this.http.get<User[]>(this.apiUrl);
+	  }
+
+	  createUser(user: User): Observable<User> {
+		return this.http.post<User>(this.apiUrl, user);
+	  }
+
+	  updateUser(user: User): Observable<User> {
+		return this.http.put<User>(`${this.apiUrl}/${user.id}`, user);
+	  }
+
+	  deleteUser(userId: number): Observable<void> {
+		return this.http.delete<void>(`${this.apiUrl}/${userId}`);
+	  }
+	}
+	Step 2: Inject the Service into Components:
+	import { Component, OnInit } from '@angular/core';
+	import { DataService } from './data.service';
+	import { User } from './user.interface'; // Replace with your custom interface representing user data
+
+	@Component({
+	  selector: 'app-user-list',
+	  template: `
+		<div *ngFor="let user of users">
+		  {{ user.name }}
+		</div>
+	  `
+	})
+	export class UserListComponent implements OnInit {
+	  users: User[];
+
+	  constructor(private dataService: DataService) {}
+
+	  ngOnInit() {
+		this.dataService.getUsers().subscribe((users) => {
+		  this.users = users;
+		});
+	  }
+	}
+77)Implement HTTP Delete Request with HttpClient in Angular.
+	Step 1: Create a Service
+			##data.service.ts
+			import { Injectable } from '@angular/core';
+			import { HttpClient } from '@angular/common/http';
+			import { Observable } from 'rxjs';
+
+			@Injectable({
+			  providedIn: 'root',
+			})
+			export class DataService {
+			  private apiUrl = 'https://api.example.com'; // Replace with your API URL
+
+			  constructor(private http: HttpClient) {}
+
+			  deleteUser(userId: number): Observable<any> {
+				return this.http.delete<any>(`${this.apiUrl}/users/${userId}`);
+			  }
+
+			  // Add other HTTP methods as needed (e.g., getUsers, createUser, updateUser, etc.)
+			}
+	Step 2: Inject the Service into a Component
+			##user.component.ts
+			import { Component } from '@angular/core';
+			import { DataService } from './data.service';
+
+			@Component({
+			  selector: 'app-user',
+			  template: `
+				<button (click)="deleteUser(1)">Delete User</button>
+			  `,
+			})
+			export class UserComponent {
+			  constructor(private dataService: DataService) {}
+
+			  deleteUser(userId: number) {
+				this.dataService.deleteUser(userId).subscribe(
+				  (response) => {
+					console.log('User deleted successfully:', response);
+					// You can perform additional actions after successful deletion.
+				  },
+				  (error) => {
+					console.error('Error deleting user:', error);
+				  }
+				);
+			  }
+
+			  // Add other component methods and logic as needed
+			}
+78)Error Handling in the Http Request Calls with HTTPClient - Angular
+	Step 1: Create a Service
+			##data.service.ts
+			import { Injectable } from '@angular/core';
+			import { HttpClient } from '@angular/common/http';
+			import { Observable, throwError } from 'rxjs';
+			import { catchError } from 'rxjs/operators';
+			@Injectable({
+			  providedIn: 'root',
+			})
+			export class DataService {
+			  private apiUrl = 'https://api.example.com'; // Replace with your API URL
+
+			  constructor(private http: HttpClient) {}
+
+			  getUsers(): Observable<User[]> {
+				return this.http.get<User[]>(`${this.apiUrl}/users`).pipe(
+				  catchError((error) => {
+					// Handle the error here (you can log, display a message, etc.)
+					console.error('Error fetching users:', error);
+					return throwError('Something went wrong, please try again later.');
+				  })
+				);
+			  }
+			  // Add other HTTP methods as needed (e.g., createUser, updateUser, deleteUser, etc.)
+			}
+	Step 2: Inject the Service into a Component
+			##user-list.component.ts
+			import { Component, OnInit } from '@angular/core';
+			import { DataService } from './data.service';
+
+			@Component({
+			  selector: 'app-user-list',
+			  templateUrl: './user-list.component.html',
+			})
+			export class UserListComponent implements OnInit {
+			  users: User[] = [];
+			  constructor(private dataService: DataService) {}
+			  ngOnInit() {
+				this.getUsers();
+			  }
+			  getUsers() {
+				this.dataService.getUsers().subscribe(
+				  (users: User[]) => {
+					this.users = users;
+				  },
+				  (error) => {
+					console.error('Error fetching users:', error);
+					// Handle the error in the component (display a message, etc.)
+				  }
+				);
+			  }
+			  // Add other component methods and logic as needed
+			}
+79)Sending HTTP Headers in the API Request Call with HTTPClient in the angular.
+	import { Injectable } from '@angular/core';
+	import { HttpClient, HttpHeaders } from '@angular/common/http';
+	import { Observable } from 'rxjs';
+
+	@Injectable({
+	  providedIn: 'root',
+	})
+	export class DataService {
+	  private apiUrl = 'https://api.example.com'; // Replace with your API URL
+
+	  constructor(private http: HttpClient) {}
+
+	  getUsers(): Observable<User[]> {
+		const httpOptions = {
+		  headers: new HttpHeaders({
+			'Content-Type': 'application/json',
+			Authorization: 'Bearer your-access-token', // Replace with your actual access token
+		  }),
+		};
+
+		return this.http.get<User[]>(`${this.apiUrl}/users`, httpOptions);
+	  }
+
+	  // Add other API request methods here
+	}
+80) Adding Query Params for the Url using HttpParams Object in HttpClient - Angular.
+	import { Injectable } from '@angular/core';
+	import { HttpClient, HttpParams } from '@angular/common/http';
+	import { Observable } from 'rxjs';
+
+	@Injectable({
+	  providedIn: 'root',
+	})
+	export class DataService {
+	  private apiUrl = 'https://api.example.com'; // Replace with your API URL
+
+	  constructor(private http: HttpClient) {}
+
+	  getUsers(pageNumber: number, pageSize: number): Observable<User[]> {
+		// Create an instance of HttpParams and set the query parameters
+		let params = new HttpParams()
+		  .set('page', pageNumber.toString())
+		  .set('pageSize', pageSize.toString());
+
+		// Append the HttpParams to the URL using the params option in the request
+		return this.http.get<User[]>(`${this.apiUrl}/users`, { params });
+	  }
+
+	  // Add other API request methods here
+	}
+
+
+
+

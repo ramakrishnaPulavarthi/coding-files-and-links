@@ -1,0 +1,200 @@
+refer:: https://www.tutorialrepublic.com/javascript-tutorial/javascript-switch-case-statements.php
+
+1)JavaScript Comments
+	a) Single-line comments:
+		// This is a single-line comment
+		let age = 25; // You can also add comments after a statement
+
+	b)Multi-line comments (also known as block comments):
+		/*
+		This is a multi-line comment.
+		It can span multiple lines, and everything within it is ignored by the JavaScript interpreter.
+		You can use it to provide detailed explanations or temporarily disable a block of code.
+		*/
+
+		let x = 10;
+		/* Commented out code:
+		for (let i = 0; i < 5; i++) {
+		  x += i;
+		}
+		*/
+2)JavaScript Variables
+	The general rules for constructing names for variables (unique identifiers) are:
+		Names can contain letters, digits, underscores, and dollar signs.
+		Names must begin with a letter.
+		Names can also begin with $ and _ (but we will not use it in this tutorial).
+		Names are case sensitive (y and Y are different variables).
+		Reserved words (like JavaScript keywords) cannot be used as names.
+	Variable Declaration:
+		// Using 'let' (block-scoped variable)
+		let age = 25;
+		let name = "John";
+
+		// Using 'const' (constant variable)
+		const PI = 3.14;
+
+		// Using 'var' (function-scoped variable)
+		var country = "USA";
+3)JavaScript Let
+	a) Variable Declaration with let:
+		let age = 25;
+		let name = "John";
+	b) Assignment and Reassignment:
+		let x = 10;
+		x = 20; // Valid, 'x' can be reassigned with a new value.
+	c) Block Scoping:
+		if (true) {
+		  let message = "Hello!";
+		  console.log(message); // Output: Hello!
+		}
+		console.log(message); // Error: message is not defined (outside the block)
+	d) Redeclaration within Block Scopes:
+		let num = 5;
+		if (true) {
+		  let num = 10; // This creates a new 'num' variable local to this block.
+		  console.log(num); // Output: 10
+		}
+		console.log(num); // Output: 5 (outer block variable is unaffected)
+
+	e) Temporal Dead Zone (TDZ):
+		console.log(x); // Error: Cannot access 'x' before initialization
+		let x = 10;
+4)JavaScript Const
+	In JavaScript, const is a keyword used to declare constants. Once a constant is assigned a value, it cannot be reassigned or changed.
+	a)Constant Declaration:
+		const PI = 3.14;
+		const name = "Alice";
+	b)Assignment (Initialization):
+		const x = 10;
+	c)Attempting to Reassign a Constant:
+		const age = 25;
+		age = 30; // Invalid (TypeError: Assignment to constant variable)
+	d)Block Scoping:
+		if (true) {
+			const message = "Hello!";
+			console.log(message); // Output: Hello!
+		}
+		console.log(message); // Error: message is not defined (outside the block)
+	e)Object and Array Constants:
+		While const prevents reassignment of the variable itself, it does not make the variable's content immutable. 
+		For example, you can modify the properties of an object or elements of an array declared as const.
+		
+		const person = { name: "John", age: 30 };
+		person.age = 35; // Valid (modifying a property of the object)
+		console.log(person); // Output: { name: 'John', age: 35 }
+
+		const numbers = [1, 2, 3];
+		numbers.push(4); // Valid (adding elements to the array)
+		console.log(numbers); // Output: [1, 2, 3, 4]
+5)JavaScript Operators
+	Arithmetic Operators:
+		let x = 10;
+		let y = 5;
+
+		let addition = x + y; // 15
+		let subtraction = x - y; // 5
+		let multiplication = x * y; // 50
+		let division = x / y; // 2
+		let modulus = x % y; // 0 (remainder of division)
+		let increment = x++; // 10 (post-increment)
+		let decrement = y--; // 5 (post-decrement)
+	Assignment Operators:
+		let x = 10;
+
+		x += 5; // equivalent to x = x + 5;
+		x -= 3; // equivalent to x = x - 3;
+		x *= 2; // equivalent to x = x * 2;
+		x /= 4; // equivalent to x = x / 4;
+		x %= 2; // equivalent to x = x % 2;
+	Comparison Operators:
+		let a = 10;
+		let b = 5;
+
+		console.log(a > b); // true
+		console.log(a < b); // false
+		console.log(a >= b); // true
+		console.log(a <= b); // false
+		console.log(a === b); // false (strict equality)
+		console.log(a !== b); // true (strict inequality)
+	Logical Operators:
+		let p = true;
+		let q = false;
+
+		console.log(p && q); // false (logical AND)
+		console.log(p || q); // true (logical OR)
+		console.log(!p); // false (logical NOT)
+	Conditional (Ternary) Operator:
+		let age = 20;
+		let status = age >= 18 ? "Adult" : "Minor";
+		console.log(status); // "Adult"
+	String Concatenation Operator:
+		let firstName = "John";
+		let lastName = "Doe";
+		let fullName = firstName + " " + lastName; // "John Doe"
+	Typeof Operator:
+		let num = 42;
+		console.log(typeof num); // "number"
+	Instanceof Operator:
+		let arr = [1, 2, 3];
+		console.log(arr instanceof Array); // true
+	Comma Operator:
+		let a = 1, b = 2, c = 3;
+		
+6)JavaScript Data Types
+	Primitive Data Types:
+			Number: Represents numeric values, both integers and floating-point numbers.
+			String: Represents sequences of characters, enclosed in single ('') or double ("") quotes.
+			Boolean: Represents a logical value, either true or false.
+			Undefined: Represents a variable that has been declared but not assigned a value.
+			Null: Represents an intentional absence of a value.
+			Symbol (ES6): Represents a unique and immutable value that is often used as an object property identifier.
+		Examples:
+			let age = 25;            // Number
+			let name = "John";       // String
+			let isStudent = true;    // Boolean
+			let score;               // Undefined
+			let user = null;         // Null
+			let id = Symbol("123");  // Symbol
+	Reference Data Types:
+			Object: Represents a collection of key-value pairs and can hold complex data.
+			Array: Represents a collection of elements, which can be of any data type and are accessed using zero-based indexes.
+			Function: Represents reusable blocks of code that can be called with arguments.
+			Date: Represents a date and time object.
+			RegExp: Represents a regular expression for pattern matching.
+		Examples:
+			let person = { name: "Alice", age: 30 }; // Object
+			let numbers = [1, 2, 3, 4];             // Array
+			let sayHello = function() {             // Function
+			  console.log("Hello!");
+			};
+			let currentDate = new Date();           // Date
+			let regexPattern = /pattern/g;          // RegExp
+7) JavaScript Functions
+	type 1:
+		Defining a Function:
+			function greet(name) {
+				console.log("Hello, " + name + "!");
+			}
+		Calling a Function:
+			greet("Alice"); // Outputs: Hello, Alice!
+	type 2: Return Values:
+		function add(a, b) {
+			return a + b;
+		}
+		let result = add(3, 5); // result is now 8
+	
+	type 3: Function Expressions:
+		const multiply = function(x, y) {
+			return x * y;
+		};
+		let product = multiply(4, 6); // product is now 24
+	type 4: Arrow Functions (ES6):
+		const square = (x) => x * x;
+		let squaredValue = square(5); // squaredValue is now 25
+	TYPE 5: Higher-Order Functions:
+		function operate(func, a, b) {
+		return func(a, b);
+		}
+
+		const result = operate(add, 10, 20); // result is 30
+		
