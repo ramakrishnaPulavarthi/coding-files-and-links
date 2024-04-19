@@ -1,0 +1,89 @@
+refer:: https://developer.mozilla.org/en-US/docs/Web/Guide/AJAX
+refer:: https://www.tutorialrepublic.com/javascript-tutorial/javascript-ajax.php
+
+AJAX::
+
+.AJAX - Asynchronous JavaScript And XML
+.AJAX helps in fetching data asynchronously from a remote web server
+.Data loaded by AJAX call is done asynchronously with out page refresh
+.Data can be of any format like JSON, XML...
+
+
+
+.In JavaScript we have to use XMLHttpRequest object to make AJAX call to exchange data from webserver.
+.AJAX request can be send to sever in with 3 steps
+->1) Create "XMLHttpRequest" object.
+	Ex: let xhr = new XMLHttpRequest()
+->2) Create request with that object "open()" method.
+	 Syntax: open(method,url,async,username,password)
+->3) Send the request using "send()" method.
+
+Ex:
+ demo.html::
+============
+ <input type="submit" class="button" id="special" value="Get Data">
+    <div id="data"></div>
+
+    <script>
+        let btn = document.getElementById('special');
+        let dataele = document.getElementById('data');
+        btn.addEventListener('click',loadData);
+
+        function loadData(){
+            let xhr = new XMLHttpRequest();
+            xhr.open('GET','text.txt',true);
+            xhr.send();
+            xhr.onprogress = function(){
+                dataele.innerHTML = "Loading....";
+            }
+            xhr.onload = function(){
+                dataele.innerHTML = xhr.responseText;
+            }
+        }
+    </script>
+text.txt::
+==========
+some data is placed in this area.
+
+XMLHttpRequest method::
+=======================
+new XMLHttpRequest()  :: create a new XMLHttpRequest object
+open(method, url, async, user, psw) :: 
+	method: the requesttype GET or POST
+	url: the file location
+	async: true(asynchronous) or false (synchronous)
+	user : optional user name
+	psw: optional password
+send() :: sends the request to the server User for GET requests
+send(string) :: sends the request to the server User for POST requests
+setRequestHeader() :: Adds a label/value pair to the header to be send
+abort() :: Cancels the current request
+getAllResponseHeaders() :: Returns header information
+getResponseHeader() :: Returns specific header information
+ 
+XMLHttpRequest property::
+=========================
+onload :: when the request is complete and the response is fully downloaded.
+onreadystatechange :: Defines a function to be called when the readyState property changes.
+onprogress :: trigger preiodically while the response is being downloaded, reports how much
+				has been downloaded.
+readyState :: Holds the status of the XMLHttpRequest.
+				0: request not initialized
+				1: server connection established
+				2: request received
+				3: processing request
+				4: request finished and response is readyState
+responseText :: Returns the response data as a string
+responseXML :: Return the response data as XML data
+status  ::  Returns the status-number of a request 
+			200 :: 'OK'
+			403 :: 'Forbidden'
+			404 :: 'Not Found'
+statusText :: Returns the status-text("OK" or "Not Found")
+
+
+
+
+
+
+
