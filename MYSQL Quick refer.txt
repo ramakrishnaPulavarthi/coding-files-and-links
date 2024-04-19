@@ -1,0 +1,654 @@
+refer javaTpoint:
+find :: Need to checking
+MySQL Database:
+===============
+MySQL Create Database:
+-->CREATE DATABASE employeesdb; 
+
+MySQL SELECT Database:
+-->USE customers;  
+
+MySQL Show/List Databases:
+-->SHOW DATABASES
+-->SHOW DATABASES LIKE "%schema"; 
+
+MySQL DROP Database:
+-->DROP DATABASE mytestdb_copy; 
+
+Table & Views:
+==============
+MySQL CREATE TABLE:
+-->CREATE TABLE employee_table(  
+		id int NOT NULL AUTO_INCREMENT,  
+		name varchar(45) NOT NULL,  
+		occupation varchar(35) NOT NULL,  
+		age int NOT NULL,  
+		PRIMARY KEY (id)  
+	); 
+-->DESCRIBE employee_table
+	--> getting table details(column name, datatype)
+
+MySQL ALTER Table:
+==>ADD a column in the table:
+-->ALTER TABLE cus_tbl  
+	ADD cus_age varchar(40) NOT NULL;  	
+==>Add multiple columns in the table:
+-->ALTER TABLE cus_tbl  
+	ADD cus_address varchar(100) NOT NULL  
+	AFTER cus_surname,  
+	ADD cus_salary int(100) NOT NULL  
+	FIRST cus_age ; 
+==>MODIFY column in the table
+-->ALTER TABLE cus_tbl  
+	MODIFY cus_surname varchar(50) NULL;  
+==>DROP column in table
+-->ALTER TABLE cus_tbl  
+	DROP COLUMN cus_address;  
+==>Change column in table
+-->ALTER TABLE cus_tbl
+	CHANGE COLUMN cus_surname cus_title VARCHAR(20) NOT NULL;  
+	
+MySQL Rename Table:
+-->ALTER TABLE old_table_name RENAME TO new_table_name;  
+
+MySQL Rename Column:
+-->ALTER TABLE table_name RENAME COLUMN old_column_name TO new_column_name;  
+
+MySQL Show Tables:	
+-->SHOW TABLES;  
+-->SHOW FULL TABLES;  --> get table type
+-->SHOW TABLES IN database_name;
+-->SHOW TABLES FROM database_name;  
+-->SHOW TABLES FROM database_name LIKE "stud%";  
+
+MySQL TRUNCATE Table:
+The TRUNCATE statement in MySQL removes the complete data without removing its structure.
+-->TRUNCATE TABLE customer;  
+
+MySQL DESCRIBE TABLE:
+DESCRIBE means to show the information in detail.
+-->DESCRIBE customer;  
+
+MySQL DROP Table:
+-->DROP TABLE table_name;  
+
+MySQL Temporary Table:
+-->create temporary table tempTT select * from temp_table1;
+-->CREATE TEMPORARY TABLE Students( 
+	student_name VARCHAR(40) NOT NULL, 
+	total_marks DECIMAL(12,2) NOT NULL DEFAULT 0.00, 
+	total_subjects INT UNSIGNED NOT NULL DEFAULT 0); 
+--> DROP TEMPORARY TABLE table_name; 
+
+MySQL Copy/Clone/Duplicate Table:
+-->CREATE TABLE new_table_name  
+	SELECT column1, column2, column3   
+	FROM existing_table_name;  
+-->CREATE TABLE new_table_name  
+	SELECT column1, column2, column3   
+	FROM existing_table_name  
+	WHERE condition;  
+-->CREATE TABLE IF NOT EXISTS duplicate_table   
+-->CREATE TABLE mystudentdb.duplicate_table   
+	LIKE mysqltestdb.original_table;  
+-->INSERT mystudentdb.duplicate_table   
+	SELECT * FROM mysqltestdb.original_table;   
+
+MySQL Show Columns:
+-->SHOW COLUMNS FROM student_info;  
+-->SHOW COLUMNS FROM student_info LIKE 's%';  
+-->SHOW FULL COLUMNS FROM student_info;
+-->DESCRIBE students_info;  
+
+MySQL View: Need to checking
+-->ALTER VIEW view_name AS    
+	SELECT columns    
+	FROM table    
+	WHERE conditions; 
+	
+MySQL Queries:
+===============
+MySQL Constraints:
+-->Constraints used in MySQL
+	The following are the most common constraints used in the MySQL:
+	NOT NULL 
+	CHECK
+	DEFAULT
+	PRIMARY KEY
+	AUTO_INCREMENT
+	UNIQUE
+	INDEX
+	ENUM
+	FOREIGN KEY
+NOT NULL --> This constraint specifies that the column cannot have NULL or empty values.
+			ex: CREATE TABLE Student(Id INTEGER, LastName TEXT NOT NULL, FirstName TEXT NOT NULL);
+			
+CHECK --> It controls the value in a particular column.It ensures that the inserted value in a column must be satisfied with the given condition.
+			ex:  CREATE TABLE Persons (ID int NOT NULL, Name varchar(45) NOT NULL,  Age int CHECK (Age>=18));  
+DEFAULT --> This constraint is used to set the default value for the particular column where we have not specified any value. 
+			ex: CREATE TABLE Persons (ID int NOT NULL, Name varchar(45) NOT NULL, Age int, City varchar(25) DEFAULT 'New York');  
+PRIMARY KEY --> This constraint is used to identify each record in a table uniquely. If the column contains primary key constraints, then it cannot be null or empty.
+			ex: CREATE TABLE Persons ( ID int NOT NULL PRIMARY KEY, Name varchar(45) NOT NULL, Age int, City varchar(25));  
+AUTO_INCREMENT --> This constraint automatically generates a unique number whenever we insert a new record into the table.
+			ex: CREATE TABLE Animals( id int NOT NULL AUTO_INCREMENT,  name CHAR(30) NOT NULL, PRIMARY KEY (id)); 
+UNIQUE  --> This constraint ensures that all values inserted into the column will be unique.
+			ex: CREATE TABLE ShirtBrands(Id INTEGER, BrandName VARCHAR(40) UNIQUE, Size VARCHAR(30));  
+INDEX   -->
+ENUM    --> The ENUM data type in MySQL is a string object. It allows us to limit the value chosen from a list of permitted values in the column specification at the
+			time of table creation.
+			ex: CREATE TABLE Shirts ( id INT PRIMARY KEY AUTO_INCREMENT,  name VARCHAR(35), size ENUM('small', 'medium', 'large', 'x-large'));  
+			
+FOREIGN KEY  --> This constraint is used to link two tables together. It is also known as the referencing key. A foreign key column matches the primary key field of another table. 
+				It means a foreign key field in one table refers to the primary key field of another table.		 	
+			ex: CREATE TABLE Persons (  
+				Person_ID int NOT NULL PRIMARY KEY,   
+				Name varchar(45) NOT NULL,   
+				Age int,   
+				City varchar(25)  
+				);  
+				CREATE TABLE Orders (  
+				Order_ID int NOT NULL PRIMARY KEY,  
+				Order_Num int NOT NULL,  
+				Person_ID int,  
+				FOREIGN KEY (Person_ID) REFERENCES Persons(Person_ID)  
+				);  
+MySQL INSERT Statement:
+	CREATE TABLE People(  
+		id int NOT NULL AUTO_INCREMENT,  
+		name varchar(45) NOT NULL,  
+		occupation varchar(35) NOT NULL,  
+		age int,  
+		PRIMARY KEY (id)  
+	);  
+	-->If we want to store single records for all fields
+		INSERT INTO People (id, name, occupation, age)   
+		VALUES (101, 'Peter', 'Engineer', 32); 
+	-->If we want to store multiple records,
+		INSERT INTO People VALUES  
+		(102, 'Joseph', 'Developer', 30),  
+		(103, 'Mike', 'Leader', 28),  
+		(104, 'Stephen', 'Scientist', 45); 
+	-->If we want to store records without giving all fields
+		INSERT INTO People (name, occupation)   
+		VALUES ('Stephen', 'Scientist'), ('Bob', 'Actor');   
+MySQL INSERT INTO SELECT:
+	--> INSERT INTO table_name2 SELECT * FROM table_name1  WHERE condition;  	
+MySQL UPDATE Query:
+	UPDATE table_name SET column_name1 = new-value1, column_name2=new-value2, ... [WHERE Clause];
+	ex: UPDATE trainer SET email = 'mike@tutorialandexamples.com' WHERE course_name = 'Java';  
+	
+MySQL DELETE Statement:
+	DELETE FROM table_name WHERE condition;  
+	ex: DELETE FROM Employees WHERE emp_id=107;  
+	
+MySQL SELECT Statement:
+	SELECT field_name1, field_name 2,... field_nameN   
+	FROM table_name1, table_name2...  
+	[WHERE condition]  
+	[GROUP BY field_name(s)]  
+	[HAVING condition]   
+	[ORDER BY field_name(s)]  
+	[OFFSET M ][LIMIT N];  
+	field_name(s) --> It is used to specify one or more columns to returns in the result set. The asterisk (*) returns all fields of a table.
+	table_name(s) --> It is the name of tables from which we want to fetch data.
+	WHERE	      --> It is an optional clause. It specifies the condition that returned the matched records in the result set.
+	GROUP BY	  --> It is optional. It collects data from multiple records and grouped them by one or more columns.
+	HAVING	      --> It is optional. It works with the GROUP BY clause and returns only those rows whose condition is TRUE.
+	ORDER BY	  --> It is optional. It is used for sorting the records in the result set.
+	OFFSET	      --> It is optional. It specifies to which row returns first. By default, It starts with zero.
+	LIMIT	      --> It is optional. It is used to limit the number of returned records in the result set.
+
+MySQL Indexes: Need to checking
+==============
+
+MySQL Clauses:
+==============
+MySQL WHERE Clause:
+	-->SELECT * FROM officers WHERE address = 'Mau';  
+MySQL Distinct Clause:
+	-->MySQL DISTINCT clause is used to remove duplicate records from the table and fetch only the unique records.
+	ex: SELECT DISTINCT officer_name, address FROM officers;  
+MySQL FROM Clause:
+	-->The MySQL FROM Clause is used to select some records from a table. 
+	ex: SELECT *  FROM officers  WHERE officer_id <= 3;  
+MySQL ORDER BY Clause:
+    -->The MYSQL ORDER BY Clause is used to sort the records in ascending or descending order.
+	ex: SELECT * FROM officers WHERE address = 'Lucknow' ORDER BY officer_name ASC;  
+MySQL GROUP BY Clause:
+    -->The MYSQL GROUP BY Clause is used to collect data from multiple records and group the result by one or more column. It is generally used in a SELECT statement.
+	ex: SELECT address, COUNT(*) FROM officers GROUP BY address;   
+MySQL HAVING Clause:
+	-->MySQL HAVING Clause is used with GROUP BY clause. It always returns the rows where condition is TRUE.
+	ex: SELECT expression1, expression2, ... expression_n,   
+		aggregate_function (expression)  
+		FROM tables  
+		[WHERE conditions]  
+		GROUP BY expression1, expression2, ... expression_n  
+		HAVING condition; 	
+Control Flow Function:
+======================
+MySQL IF():
+	--> which returns a value based on the given conditions.
+	ex: SELECT lastname, IF(age>20,"Mature","Immature") As Result FROM student; 
+MySQL IFNULL():
+	-->The IFNULL function accepts two expressions, and if the first expression is not null, it returns the first arguments. 
+		If the first expression is null, it returns the second argument.
+		ex: SELECT contactname, IFNULL(cellphone, homephone) phone FROM student_contact;  
+MySQL NULLIF():
+	-->The NULLIF function accepts two expressions, and if the first expression is equal to the second expression, it returns the NULL. Otherwise, it returns the first expression.
+		ex: SELECT cust_name, occupation, qualification, NULLIF (qualification,"Btech") result FROM myproductdb.customer; 
+MySQL CASE Expression:
+	-->MySQL CASE expression is a part of the control flow function that provides us to write an if-else or if-then-else logic to a query.
+		ex:SELECT studentid, firstname,  
+			 CASE   
+				WHEN 'CLASS == CS' THEN 'Computer Science'   
+				WHEN 'CLASS == EC' THEN 'Electronics and Communication'   
+				ELSE 'Electrical Engineering'   
+			END AS department from students;  
+			
+MySQL Conditions:
+==================
+MySQL AND Condition:
+	-->The MySQL AND condition is used with SELECT, INSERT, UPDATE or DELETE statements to test two or more conditions in an individual query.
+		ex: SELECT * FROM cus_tbl WHERE cus_firstname = 'Ajeet'  AND cus_id > 3;  
+MySQL OR Condition:
+	-->The MySQL OR condition specifies that if you take two or more conditions then one of the conditions must be fulfilled to get the records as result.
+		ex: SELECT * FROM cus_tbl WHERE cus_firstname = 'Ajeet' OR cus_id > 100;  
+MySQL AND & OR condition:
+	    ex: SELECT * FROM students WHERE (course_name = 'Java' AND student_name = 'Aryan') OR (student_id < 2);  
+MySQL Boolean:
+	-->MySQL does not contain built-in Boolean or Bool data type. They provide a TINYINT data type instead of Boolean or Bool data types.
+		ex: mysql> CREATE TABLE student (  
+				studentid INT PRIMARY KEY AUTO_INCREMENT,  
+				name VARCHAR(40) NOT NULL,  
+				age VARCHAR(3),  
+				pass BOOLEAN  
+				);  
+			INSERT INTO student(name, pass) VALUES('Peter',true), ('John',false);  
+MySQL LIKE condition:
+	-->In MySQL, LIKE condition is used to perform pattern matching to find the correct result.
+		1) Using % (percent) Wildcard:
+			Consider a table "officers" having the following data.
+			ex: SELECT officer_name FROM officers WHERE address LIKE 'Luck%';  
+		2) Using _ (Underscore) Wildcard:
+			We are using the same table "officers" in this example too.
+			ex: SELECT officer_name FROM officers WHERE address LIKE 'Luc_now';
+		3) Using NOT Operator:
+			ex: SELECT officer_name FROM officers WHERE address NOT LIKE 'Luck%';  
+MySQL IN Condition:
+	-->The MySQL IN condition is used to reduce the use of multiple OR conditions in a SELECT, INSERT, UPDATE and DELETE statement.
+		ex: SELECT *  FROM officers WHERE officer_name IN ('Ajeet', 'Vimal', 'Deepika');  
+MySQL ANY:
+	-->The ANY keyword is a MySQL operator that returns the Boolean value TRUE if the comparison is TRUE for ANY of the subquery condition. 
+		SELECT column_lists FROM table_name1 WHERE column_name Operator ANY (SELECT column_name FROM table_name2 WHERE condition);  
+		ex: SELECT colm1 FROM table1 WHERE colm1 > ANY (SELECT colm1 FROM table2);  
+MySQL Exists:
+	-->The EXISTS operator in MySQL is a type of Boolean operator which returns the true or false result. 
+		It is used in combination with a subquery and checks the existence of data in a subquery.
+		ex: mysql> SELECT name, occupation FROM customer  
+					WHERE EXISTS (SELECT * FROM Orders WHERE customer.cust_id = Orders.cust_id);  
+MySQL NOT Condition:
+	-->The MySQL NOT condition is opposite of MySQL IN condition. It is used to negate a condition in a SELECT, INSERT, UPDATE or DELETE statement.
+		ex: SELECT * FROM officers WHERE officer_name NOT IN ('Ajeet','Vimal','Deepika');  
+				(or) WHERE officer_name NOT LIKE 'A%';  (or) WHERE officer_name IS NOT NULL;  
+
+MySQL Not Equal:
+	-->MySQL Not Equal is an inequality operator that used for returning a set of rows after comparing two expressions that are not equal.
+		The MySQL contains two types of Not Equal operator, which are (< >) and (! =).
+		ex: SELECT * FROM students WHERE city <> "England"; OR, SELECT * FROM students WHERE city != "England";  
+ 
+MySQL IS NULL Condition:
+	-->MySQL IS NULL condition is used to check if there is a NULL value in the expression. It is used with SELECT, INSERT, UPDATE and DELETE statement.
+		ex: SELECT * FROM officers WHERE officer_name IS NULL;  
+
+MySQL IS NOT NULL Condition:
+	--> MySQL IS NOT NULL condition is used to check the NOT NULL value in the expression. It is used with SELECT, INSERT, UPDATE and DELETE statements.
+		ex: SELECT * FROM officers WHERE officer_name IS NOT NULL;
+
+MySQL BETWEEN Condition:
+	--> (i) MySQL BETWEEN condition with numeric value:
+		SELECT * FROM officers WHERE officer_id BETWEEN 1 AND 3;  
+	--> (ii) MySQL BETWEEN condition with date:
+		SELECT * FROM employees WHERE working_date BETWEEN CAST ('2015-01-24' AS DATE) AND CAST ('2015-01-25' AS DATE);  
+		
+MySQL Join:
+============
+MySQL Inner Join:
+	The MySQL Inner Join is used to returns only those results from the tables that match the specified condition and hides other rows and columns.
+	ex: SELECT students.stud_fname, students.stud_lname, students.city, technologies.technology    
+		FROM students   
+		INNER JOIN technologies ON students.student_id = technologies.tech_id;  
+MySQL LEFT JOIN:
+	The Left Join in MySQL is used to query records from multiple tables. 
+	This clause is similar to the Inner Join clause that can be used with a SELECT statement immediately after the FROM keyword. 
+	ex: SELECT customers.customer_id, cust_name, price, date  
+		FROM customers  
+		LEFT JOIN orders ON customers.customer_id = orders.customer_id;
+MySQL RIGHT JOIN:
+	The Right Join is used to joins two or more tables and returns all rows from the right-hand table, and only those results from the other table that fulfilled the join condition.
+	ex: SELECT customers.customer_id, cust_name, price, date  
+		FROM customers  
+		RIGHT JOIN orders ON customers.customer_id = orders.customer_id  
+		ORDER BY  customer_id;  
+		
+MySQL Key:
+============
+MySQL Unique Key:
+	A unique key in MySQL is a single field or combination of fields that ensure all values going to store into the column will be unique.
+	It means a column cannot stores duplicate values.
+	ex: CREATE TABLE Student2 (  
+			Stud_ID int NOT NULL UNIQUE,   
+			Name varchar(45),   
+			Email varchar(45),  
+			Age int,   
+			City varchar(25)  
+		);
+		CREATE TABLE Student3 (  
+			Stud_ID int,   
+			Roll_No int,  
+			Name varchar(45) NOT NULL,   
+			Email varchar(45),  
+			Age int,   
+			City varchar(25),  
+			CONSTRAINT uc_rollno_email Unique(Roll_No, Email)  
+		);
+		DROP Unique Key:
+		-->ALTER TABLE table_name  DROP INDEX constraint_name;  
+		ex: ALTER TABLE table_name  DROP INDEX uc_rollno_email; 
+		Unique Key Using ALTER TABLE Statement:
+		-->ALTER TABLE table_name ADD CONSTRAINT constraint_name UNIQUE(column_list);  
+		
+MySQL Primary Key:
+	The primary key column value must be unique.
+	Each table can contain only one primary key.
+	The primary key column cannot be null or empty.
+	MySQL does not allow us to insert a new row with the existing primary key.
+	It is recommended to use INT or BIGINT data type for the primary key column.
+	ex: CREATE TABLE Login(  
+		   login_id INT AUTO_INCREMENT PRIMARY KEY,  
+		   username VARCHAR(40),  
+		   password VARCHAR(55),  
+		   email VARCHAR(55)  
+		);  
+		CREATE TABLE Students (  
+			Student_ID int,   
+			Roll_No int,  
+			Name varchar(45) NOT NULL,   
+			Age int,   
+			City varchar(25),  
+			Primary Key(Student_ID, Roll_No)  
+		);  
+		Primary Key Using ALTER TABLE Statement:
+		-->ALTER TABLE table_name ADD PRIMARY KEY(column_list);  
+		DROP Primary Key:
+		-->ALTER TABLE table_name  DROP PRIMARY KEY;  
+		
+MySQL Foreign Key:
+		CREATE TABLE customer (  
+		  ID INT NOT NULL AUTO_INCREMENT,  
+		  Name varchar(50) NOT NULL,  
+		  City varchar(50) NOT NULL,  
+		  PRIMARY KEY (ID)  
+		);  
+		CREATE TABLE contact (  
+		  ID INT,  
+		  Customer_Id INT,  
+		  Customer_Info varchar(50) NOT NULL,  
+		  Type varchar(50) NOT NULL,  
+		  INDEX par_ind (Customer_Id),  
+		  CONSTRAINT fk_customer FOREIGN KEY (Customer_Id)  
+		  REFERENCES customer(ID)  
+		  ON DELETE CASCADE  
+		  ON UPDATE CASCADE  
+		);  
+		How to DROP Foreign Key:
+		-->ALTER TABLE table_name DROP FOREIGN KEY fk_constraint_name;  
+		-->SHOW CREATE TABLE contact;
+
+MySQL Triggers:
+===============
+MySQL Create Trigger:
+	CREATE TRIGGER trigger_name  trigger_time trigger_event  
+	ON table_name FOR EACH ROW  
+	BEGIN  
+		--variable declarations  
+		--trigger code  
+	END;   
+MySQL BEFORE INSERT TRIGGER:
+	-->CREATE TRIGGER trigger_name BEFORE INSERT  
+		ON table_name FOR EACH ROW  
+		BEGIN  
+			variable declarations  
+			trigger code  
+		END  
+	ex: Create Trigger before_insert_occupation  
+		BEFORE INSERT ON employee FOR EACH ROW  
+		BEGIN  
+		IF NEW.occupation = 'Scientist' THEN SET NEW.occupation = 'Doctor';  
+		END IF;  
+		END 
+MySQL AFTER INSERT Trigger:
+	-->CREATE TRIGGER trigger_name AFTER INSERT  
+		ON table_name FOR EACH ROW  
+		BEGIN  
+		   variable declarations  
+		   trigger code  
+		END
+	ex: Create Trigger after_insert_details  
+		AFTER INSERT ON student_info FOR EACH ROW  
+		BEGIN  
+			INSERT INTO student_detail VALUES (new.stud_id, new.stud_code,   
+			new.stud_name, new.subject, new.marks, new.phone, CURTIME());  
+		END 
+MySQL BEFORE UPDATE Trigger:
+	--> CREATE TRIGGER trigger_name BEFORE UPDATE  
+			ON table_name FOR EACH ROW  
+			BEGIN  
+			   variable declarations  
+			   trigger code  
+			END
+	ex: CREATE TRIGGER before_update_salesInfo  
+		BEFORE UPDATE  
+		ON sales_info FOR EACH ROW  
+		BEGIN  
+			DECLARE error_msg VARCHAR(255);  
+			SET error_msg = ('The new quantity cannot be greater than 2 times the current quantity');  
+			IF new.quantity > old.quantity * 2 THEN  
+				SIGNAL SQLSTATE '45000'   
+				SET MESSAGE_TEXT = error_msg;  
+			END IF;  
+		END 
+MySQL AFTER UPDATE TRIGGER:
+	--> CREATE TRIGGER trigger_name AFTER UPDATE  
+			ON table_name FOR EACH ROW  
+			BEGIN  
+			   variable declarations  
+			   trigger code  
+			END
+	ex: CREATE TRIGGER after_update_studentsInfo  
+		AFTER UPDATE  
+		ON students FOR EACH ROW  
+		BEGIN  
+			INSERT into students_log VALUES (user(),   
+			CONCAT('Update Student Record ', OLD.name, ' Previous Class :',  
+			OLD.class, ' Present Class ', NEW.class));  
+		END
+MySQL BEFORE DELETE Trigger:
+	--> CREATE TRIGGER trigger_name BEFORE DELETE  
+		ON table_name FOR EACH ROW  
+		BEGIN  
+		   variable declarations  
+		   trigger code  
+		END
+	ex: CREATE TRIGGER before_delete_salaries  
+		BEFORE DELETE  
+		ON salaries FOR EACH ROW  
+		BEGIN  
+			INSERT INTO salary_archives (emp_num, valid_from, amount)  
+			VALUES(OLD. emp_num, OLD.valid_from, OLD.amount);  
+		END
+MySQL AFTER DELETE Trigger:
+	--> CREATE TRIGGER trigger_name AFTER DELETE  
+			ON table_name FOR EACH ROW  
+			BEGIN  
+			   variable declarations  
+			   trigger code  
+			END
+	ex: CREATE TRIGGER after_delete_salaries  
+			AFTER DELETE  
+			ON salaries FOR EACH ROW  
+			BEGIN  
+			   UPDATE total_salary_budget SET total_budget = total_budget - old.amount;  
+			END
+MySQL Show/List Triggers:
+	--> SHOW TRIGGERS;
+	--> SHOW TRIGGERS FROM database_name;    
+	--> SHOW TRIGGERS LIKE pattern;   
+MySQL DROP Trigger:
+	--> DROP TRIGGER employeedb.before_update_salaries;  
+Aggregate Functions:
+====================
+MySQL Count() Function:
+	Count (*)
+	Count (expression)
+	Count (distinct)
+	--> SELECT COUNT(emp_name) FROM employees;    
+	--> SELECT COUNT(*) FROM employees WHERE emp_age>32;    
+	-->  SELECT COUNT(DISTINCT emp_age) FROM employees;  
+	--> SELECT emp_name, city, COUNT(*) FROM employees GROUP BY city;  
+MySQL sum() function:
+	-->SELECT SUM(aggregate_expression) FROM tables [WHERE conditions];  
+	ex:SELECT SUM(working_hours) AS "Total working hours" FROM employees;  
+MySQL avg() function:
+	-->SELECT AVG(aggregate_expression) FROM tables [WHERE conditions];  
+	ex: SELECT AVG(working_hours) as Avg_working_hours FROM employees; 
+MySQL MIN() Function:
+	-->SELECT MIN ( DISTINCT aggregate_expression) FROM table_name(s) [WHERE conditions];
+	ex: SELECT MIN(income) AS Minimum_Income FROM employees;    
+MySQL MAX() Function:
+	--> SELECT MAX(DISTINCT aggregate_expression) FROM table_name(s) [WHERE conditions];  
+MySQL first function:
+	-->SELECT column_name FROM table_name LIMIT 1; 
+	ex: SELECT officer_name FROM officers LIMIT 1;
+MySQL last function:
+	-->SELECT column_name FROM table_name ORDER BY column_name DESC LIMIT 1;  
+	ex: SELECT officer_name FROM officers ORDER BY officer_id DESC LIMIT 1;
+MySQL Misc:
+===========
+MySQL CHECK CONSTRAINT:
+	-->SHOW CREATE TABLE vehicle; 
+MySQL Subquery:
+	-->SELECT column_list (s) FROM  table_name  
+		WHERE  column_name OPERATOR (SELECT column_list (s)  FROM table_name [WHERE])  
+	ex:SELECT emp_name, city, income FROM employees   
+		WHERE emp_id IN (SELECT emp_id FROM employees);  
+MySQL Stored Function:
+	1.The function parameter may contain only the IN parameter but can't allow specifying this parameter, while the procedure can allow IN, OUT, INOUT parameters.
+	2.The stored function can return only a single value defined in the function header.
+	3.The stored function may also be called within SQL statements.
+	4.It may not produce a result set.
+	==>Simple stored function
+	ex: CREATE FUNCTION Customer_Occupation(  
+		age int  
+		)   
+		RETURNS VARCHAR(20)  
+		DETERMINISTIC  
+		BEGIN  
+			DECLARE customer_occupation VARCHAR(20);  
+			IF age > 35 THEN  
+				SET customer_occupation = 'Scientist';  
+			ELSEIF (age <= 35 AND   
+					age >= 30) THEN  
+				SET customer_occupation = 'Engineer';  
+			ELSEIF age < 30 THEN  
+				SET customer_occupation = 'Actor';  
+			END IF;  
+			-- return the customer occupation  
+			RETURN (customer_occupation);  
+		END
+		
+MySQL Stored Procedure:
+	DELIMITER &&  
+	CREATE PROCEDURE procedure_name [[IN | OUT | INOUT] parameter_name datatype [, parameter datatype]) ]    
+	BEGIN    
+		Declaration_section    
+		Executable_section    
+	END &&  
+	DELIMITER ;   
+	==>How to call a stored procedure?
+	   CALL procedure_name ( parameter(s))  
+	
+	EX: NOT PARAMETERS: 
+		DELIMITER &&  
+		CREATE PROCEDURE get_merit_student ()  
+		BEGIN  
+			SELECT * FROM student_info WHERE marks > 70;  
+			SELECT COUNT(stud_code) AS Total_Student FROM student_info;    
+		END &&  
+		DELIMITER ;  
+		
+	   CALL get_merit_student();  
+	   
+	   Procedures with IN Parameter:
+		DELIMITER &&  
+		CREATE PROCEDURE get_student (IN var1 INT)  
+		BEGIN  
+			SELECT * FROM student_info LIMIT var1;  
+			SELECT COUNT(stud_code) AS Total_Student FROM student_info;    
+		END &&  
+		DELIMITER ;  
+		
+		CALL get_student(4);  
+	   
+	   Procedures with OUT Parameter:
+		DELIMITER &&  
+		CREATE PROCEDURE display_max_mark (OUT highestmark INT)  
+		BEGIN  
+			SELECT MAX(marks) INTO highestmark FROM student_info;   
+		END &&  
+		DELIMITER ; 
+		
+		CALL display_max_mark(@M);  
+		SELECT @M;  
+		
+	   Procedures with INOUT Parameter:
+		DELIMITER &&  
+		CREATE PROCEDURE display_marks (INOUT var1 INT)  
+		BEGIN  
+		SELECT marks INTO var1 FROM student_info WHERE stud_id = var1;   
+		END &&  
+		DELIMITER ;  
+
+		SET @M = '3';  
+		CALL display_marks(@M);  
+		SELECT @M;  
+	   
+MySQL Union:
+	-->SELECT column_list FROM table1  
+		UNION  
+		SELECT column_list FROM table2;  
+	EX:SELECT stud_name, subject FROM student1  
+		UNION  
+		SELECT stud_name, subject FROM student2;  
+MySQL DECIMAL:
+	-->column_name DECIMAL (M, D);  
+		The range of M must be between 1 to 65. 
+		The range of D must be between 0 to 30 
+	EX: CREATE TABLE orders (order_id INT NOT NULL PRIMARY KEY, prod_name VARCHAR(35) NULL, price DECIMAL(15,3) NOT NULL);
+MySQL Alias:
+	-->For Column
+		SELECT col_name AS alias_name FROM table_name;  
+		EX:  SELECT stud_code AS 'Roll No', marks AS scores FROM Student_info;  
+	-->For Table
+		SELECT col_name1, col_name2,... FROM table_name AS alias_name;  
+		EX: SELECT Student_details.stud_name, Student_details.phone, Student_details.marks FROM Students AS Student_details;
+
+	-->BOTH:
+		SELECT stud_name, branch, grade, phone  
+		FROM Students AS S  
+		INNER JOIN Student_detail AS D  
+		ON S.stud_code=D.stud_code  
+		ORDER BY grade;  
+		
+		
+		
